@@ -1,5 +1,6 @@
 module Main where
 import Graphics.UI.Fungen
+import Graphics.Rendering.OpenGL (GLdouble)
 import Paths_runner (getDataFileName)
 
 data GameAttribute = Score Int
@@ -12,15 +13,22 @@ screenWidth = 1000;
 screenHeight = 1000;
 
 speed :: Double
-speed = 6.0
+speed = 30.0
+
+magenta :: InvList
+magenta = Just [(255,0,255)]
 
 bmpList :: FilePictureList
-bmpList = [("tex.bmp",          Nothing)]
+bmpList = [("fruit.bmp", magenta),
+           ("chefinho.bmp", Nothing),
+           ("boo.bmp", Nothing),
+           ("crash.bmp", Nothing),
+           ("player.bmp", magenta)]
 
 main :: IO ()
 main = do
   let winConfig = ((0,0),(screenWidth,screenHeight),"Runner")
-      gameMap = (colorMap 1.0 0.0 0.0 1000 1000)
+      gameMap = (colorMap 0.0 0.0 0.0 1000 1000)
       player    = objectGroup "playerGroup" [createPlayer]
       ghost     = objectGroup "ghostGroup" [createChefinho, createCrash, createBoo]
       fruit     = objectGroup "fruitGroup" [createFruit]
@@ -35,7 +43,7 @@ main = do
         ,(Char 'r',            Press, restartGame)
         ]
   bmpList' <- mapM (\(a,b) -> do { a' <- getDataFileName ("app/"++a); return (a', b)}) bmpList
-  funInit winConfig gameMap groups (Level 1) initScore input gameCycle (Timer 40) bmpList'
+  funInit winConfig gameMap groups (Level 1) initScore input gameCycle (Timer 50) bmpList'
 
 restartGame :: Modifiers -> Position -> RunnerAction()
 restartGame _ _ = do
@@ -56,28 +64,24 @@ setInitGame = do
   setObjectPosition (900,900) fruit
 
 createPlayer :: RunnerObject
-createPlayer = let barPic = Tex (50,50) 0
-               in object "player" barPic False (125,30) (0,0) ()
+createPlayer = let pacTex = Tex (30, 30) 4
+               in object "player" pacTex False (125,30) (0,0) ()
 
 createChefinho :: RunnerObject
-createChefinho = let barBound = [(-10,-10),(10,-10),(10,10),(-10,10)]
-                     barPic = Basic (Polyg barBound 0.0 0.0 1.0 Filled)
-                 in object "chefinho" barPic False (500,500) (0,0) ()
+createChefinho = let chefinhoTex = Tex (30, 30) 1
+               in object "chefinho" chefinhoTex False (500,500) (0,0) ()
 
 createCrash :: RunnerObject
-createCrash = let barBound = [(-10,-10),(10,-10),(10,10),(-10,10)]
-                  barPic = Basic (Polyg barBound 0.0 0.0 1.0 Filled)
-              in object "crash" barPic True (300,700) (0,0) ()
+createCrash = let crashTex = Tex (30, 30) 3
+               in object "crash" crashTex True (300,700) (0,0) ()
 
 createBoo :: RunnerObject
-createBoo = let barBound = [(-10,-10),(10,-10),(10,10),(-10,10)]
-                barPic = Basic (Polyg barBound 0.0 0.0 1.0 Filled)
-            in object "boo" barPic True (500,500) (0,0) ()
+createBoo = let booTex = Tex (30, 30) 2
+               in object "boo" booTex True (500,500) (0,0) ()
 
 createFruit :: RunnerObject
-createFruit = let barBound = [(-10,-10),(10,-10),(10,10),(-10,10)]
-                  barPic = Basic (Polyg barBound 1.0 1.0 1.0 Filled)
-              in object "fruit" barPic False (900,900) (0,0) ()
+createFruit = let tex = Tex (32.0, 32.0) 0
+              in object "fruit" tex False (900,900) (0,0) ()
 
 
 movePlayerToRight :: Modifiers -> Position -> RunnerAction ()
@@ -153,7 +157,7 @@ levelOne (Score n) = do
   player <- findObject "player" "playerGroup"
   fruit <- findObject "fruit" "fruitGroup"
   setObjectAsleep False chefinho
-  movingGhost 3.0 chefinho player
+  movingGhost 22.0 chefinho player
   colChefinhoPlayer <- objectsCollision chefinho player
   colFruitPlayer <- objectsCollision fruit player
   if colChefinhoPlayer
@@ -177,8 +181,8 @@ levelTwo (Score n) = do
   fruit <- findObject "fruit" "fruitGroup"
   setObjectAsleep False chefinho
   setObjectAsleep False crash
-  movingGhost 3.0 chefinho player
-  movingGhost 3.7 crash player
+  movingGhost 22.0 chefinho player
+  movingGhost 23.7 crash player
   colChefinhoPlayer <- objectsCollision chefinho player
   colCrashPlayer <- objectsCollision crash player
   colFruitPlayer <- objectsCollision fruit player
@@ -205,9 +209,9 @@ levelThree (Score n) = do
   setObjectAsleep False chefinho
   setObjectAsleep False crash
   setObjectAsleep False boo
-  movingGhost 3.5 chefinho player
-  movingGhost 4.0 crash player
-  movingGhost 4.5 boo player
+  movingGhost 22.5 chefinho player
+  movingGhost 23.0 crash player
+  movingGhost 25.5 boo player
   colChefinhoPlayer <- objectsCollision chefinho player
   colCrashPlayer <- objectsCollision crash player
   colBooPlayer <- objectsCollision boo player

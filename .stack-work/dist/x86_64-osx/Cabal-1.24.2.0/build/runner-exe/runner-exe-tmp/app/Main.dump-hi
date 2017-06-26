@@ -1,11 +1,11 @@
 
 ==================== FINAL INTERFACE ====================
-2017-06-26 15:38:54.883445 UTC
+2017-06-26 21:59:54.813835 UTC
 
 interface main@main:Main 8002
-  interface hash: fd934ae421f0904b122fe42168297e49
-  ABI hash: ff1133d2433abb17d81064ce8a17f750
-  export-list hash: 70f88d5fb6d25dead90888510cf757b6
+  interface hash: 53a80db3dd4f5bf05f490ec115fae089
+  ABI hash: a6d87610b25c04fcc5c51fa4593f6fdf
+  export-list hash: ea5328101f51a74ff912ceb60b804535
   orphan hash: 693e9af84d3dfcc71e640e005bdc5e2e
   flag hash: d0cf1de6122ad017a497dc3dbf340a24
   sig of: Nothing
@@ -22,6 +22,7 @@ exports:
   Main.levelOne
   Main.levelThree
   Main.levelTwo
+  Main.magenta
   Main.main
   Main.movePlayerToDown
   Main.movePlayerToLeft
@@ -86,9 +87,11 @@ import  -/  FunGEn-1.0.1@FunGEn-1.0.1-3MTbMng8j1tBgy7xdIb1w6:Graphics.UI.Fungen.
 import  -/  FunGEn-1.0.1@FunGEn-1.0.1-3MTbMng8j1tBgy7xdIb1w6:Graphics.UI.Fungen.Map bd79af25b256d5e740f2f5eee872f027
 import  -/  FunGEn-1.0.1@FunGEn-1.0.1-3MTbMng8j1tBgy7xdIb1w6:Graphics.UI.Fungen.Objects 32b62fd5088d6cb298acabb6788792e5
 import  -/  FunGEn-1.0.1@FunGEn-1.0.1-3MTbMng8j1tBgy7xdIb1w6:Graphics.UI.Fungen.Timer cb68bb4c50ecbc2920815988ff5eff2a
+import  -/  FunGEn-1.0.1@FunGEn-1.0.1-3MTbMng8j1tBgy7xdIb1w6:Graphics.UI.Fungen.Types f6b7ab5105cf708383dfdfae120ed716
 import  -/  FunGEn-1.0.1@FunGEn-1.0.1-3MTbMng8j1tBgy7xdIb1w6:Graphics.UI.GLUT.Input 6f60ceae0d113b05a7fdf7e992b7c078
 import  -/  GLUT-2.7.0.12@GLUT-2.7.0.12-2MhssjvTvsoEqaoGvdwU4F:Graphics.UI.GLUT.Callbacks.Window 996313f4b9cb74b6b4e726bb169eb8f6
 import  -/  GLUT-2.7.0.12@GLUT-2.7.0.12-2MhssjvTvsoEqaoGvdwU4F:Graphics.UI.GLUT.Raw.Fonts c9bf262416a3f8bb573066a493731fe8
+import  -/  OpenGL-3.0.2.0@OpenGL-3.0.2.0-4NExFyKSCLV2QLQh5nNNh9:Graphics.Rendering.OpenGL dd4d19a8c8a184ce3a2259b165ee5281
 import  -/  OpenGL-3.0.2.0@OpenGL-3.0.2.0-4NExFyKSCLV2QLQh5nNNh9:Graphics.Rendering.OpenGL.GL.CoordTrans 2b7c03bccd5b38afcff6e7257295ba37
 import  -/  base-4.9.1.0:Data.Foldable 3e0b6967a1da89945d0e2d47266337a2
 import  -/  base-4.9.1.0:Data.Traversable 556020d7cf3c4a34a774600512918a37
@@ -254,7 +257,7 @@ d6831ef04cb9301b090dfae6f7bb7ec7
   {- Arity: 12,
      Strictness: <L,1*U(U)><L,U><L,U><L,U><S,U><L,U><L,U><L,U><L,U><L,U><L,U><S,U>,
      Inline: [0] -}
-cfc34d465d93bfabb70882fdc2132a54
+cc8faa2eacb8ff0f54b699485abc7c9d
   $wlvl ::
     GHC.IORef.IORef (Graphics.UI.Fungen.Map.GameMap ())
     -> GHC.IORef.IORef Main.GameState
@@ -312,7 +315,7 @@ cfc34d465d93bfabb70882fdc2132a54
                         ipv1 of ww10 { (#,,#) ww11 ww12 ww13 ->
                  case Graphics.UI.Fungen.Objects.$wsearchGameObjectAux
                         @ ()
-                        Main.createPlayer8
+                        Main.createPlayer5
                         ww13 of ww14 { (#,,,,,,,,#) ww15 ww16 ww17 ww18 ww19 ww20 ww21 ww22 ww23 ->
                  case Graphics.UI.Fungen.Objects.$wfindObjectFromIdAux
                         @ ()
@@ -331,7 +334,7 @@ cfc34d465d93bfabb70882fdc2132a54
                  case GHC.Prim.tagToEnum#
                         @ GHC.Types.Bool
                         (GHC.Prim.>=##
-                           (GHC.Prim.-## (GHC.Prim.-## x (GHC.Prim./## x1 2.0##)) 6.0##)
+                           (GHC.Prim.-## (GHC.Prim.-## x (GHC.Prim./## x1 2.0##)) 30.0##)
                            0.0##) of wild4 {
                    GHC.Types.False
                    -> case GHC.Prim.readMutVar#
@@ -431,7 +434,7 @@ cfc34d465d93bfabb70882fdc2132a54
                                         ds8
                                         ds9
                                         ds11
-                                        (pX, GHC.Types.D# (GHC.Prim.-## x 6.0##))
+                                        (pX, GHC.Types.D# (GHC.Prim.-## x 30.0##))
                                         ds13
                                         ds14 })
                                      ww15
@@ -465,7 +468,7 @@ cfc34d465d93bfabb70882fdc2132a54
                             ww8
                             ww9,
                           GHC.Tuple.()) #) } } } } } } } } } } } } } } }) -}
-116c341d918131429ee8ef164e00274e
+9f562af440bc3e0be3c22ee862d3c8fc
   $wlvl1 ::
     GHC.IORef.IORef (Graphics.UI.Fungen.Map.GameMap ())
     -> GHC.IORef.IORef Main.GameState
@@ -523,7 +526,7 @@ cfc34d465d93bfabb70882fdc2132a54
                         ipv1 of ww10 { (#,,#) ww11 ww12 ww13 ->
                  case Graphics.UI.Fungen.Objects.$wsearchGameObjectAux
                         @ ()
-                        Main.createPlayer8
+                        Main.createPlayer5
                         ww13 of ww14 { (#,,,,,,,,#) ww15 ww16 ww17 ww18 ww19 ww20 ww21 ww22 ww23 ->
                  case Graphics.UI.Fungen.Objects.$wfindObjectFromIdAux
                         @ ()
@@ -542,7 +545,7 @@ cfc34d465d93bfabb70882fdc2132a54
                  case GHC.Prim.tagToEnum#
                         @ GHC.Types.Bool
                         (GHC.Prim.<=##
-                           (GHC.Prim.+## (GHC.Prim.+## x (GHC.Prim./## x1 2.0##)) 6.0##)
+                           (GHC.Prim.+## (GHC.Prim.+## x (GHC.Prim./## x1 2.0##)) 30.0##)
                            1000.0##) of wild4 {
                    GHC.Types.False
                    -> case GHC.Prim.readMutVar#
@@ -644,7 +647,7 @@ cfc34d465d93bfabb70882fdc2132a54
                                         ds8
                                         ds9
                                         ds11
-                                        (pX, GHC.Types.D# (GHC.Prim.+## x 6.0##))
+                                        (pX, GHC.Types.D# (GHC.Prim.+## x 30.0##))
                                         ds13
                                         ds14 })
                                      ww15
@@ -678,7 +681,7 @@ cfc34d465d93bfabb70882fdc2132a54
                             ww8
                             ww9,
                           GHC.Tuple.()) #) } } } } } } } } } } } } } } }) -}
-9374b7eba47ce6f5b59cd25ec65e2e73
+07438b3f8ed178d3e4985ad476571de0
   $wlvl2 ::
     GHC.IORef.IORef (Graphics.UI.Fungen.Map.GameMap ())
     -> GHC.IORef.IORef Main.GameState
@@ -736,7 +739,7 @@ cfc34d465d93bfabb70882fdc2132a54
                         ipv1 of ww10 { (#,,#) ww11 ww12 ww13 ->
                  case Graphics.UI.Fungen.Objects.$wsearchGameObjectAux
                         @ ()
-                        Main.createPlayer8
+                        Main.createPlayer5
                         ww13 of ww14 { (#,,,,,,,,#) ww15 ww16 ww17 ww18 ww19 ww20 ww21 ww22 ww23 ->
                  case Graphics.UI.Fungen.Objects.$wfindObjectFromIdAux
                         @ ()
@@ -755,7 +758,7 @@ cfc34d465d93bfabb70882fdc2132a54
                  case GHC.Prim.tagToEnum#
                         @ GHC.Types.Bool
                         (GHC.Prim.>=##
-                           (GHC.Prim.-## (GHC.Prim.-## x (GHC.Prim./## x1 2.0##)) 6.0##)
+                           (GHC.Prim.-## (GHC.Prim.-## x (GHC.Prim./## x1 2.0##)) 30.0##)
                            0.0##) of wild4 {
                    GHC.Types.False
                    -> case GHC.Prim.readMutVar#
@@ -857,7 +860,7 @@ cfc34d465d93bfabb70882fdc2132a54
                                         ds8
                                         ds9
                                         ds11
-                                        (GHC.Types.D# (GHC.Prim.-## x 6.0##), pY)
+                                        (GHC.Types.D# (GHC.Prim.-## x 30.0##), pY)
                                         ds13
                                         ds14 })
                                      ww15
@@ -891,7 +894,7 @@ cfc34d465d93bfabb70882fdc2132a54
                             ww8
                             ww9,
                           GHC.Tuple.()) #) } } } } } } } } } } } } } } }) -}
-1242432869d37cf27f0348f0329bdcc7
+2a1707a0f6907b9118b8d4c1fdab487e
   $wlvl3 ::
     GHC.IORef.IORef (Graphics.UI.Fungen.Map.GameMap ())
     -> GHC.IORef.IORef Main.GameState
@@ -949,7 +952,7 @@ cfc34d465d93bfabb70882fdc2132a54
                         ipv1 of ww10 { (#,,#) ww11 ww12 ww13 ->
                  case Graphics.UI.Fungen.Objects.$wsearchGameObjectAux
                         @ ()
-                        Main.createPlayer8
+                        Main.createPlayer5
                         ww13 of ww14 { (#,,,,,,,,#) ww15 ww16 ww17 ww18 ww19 ww20 ww21 ww22 ww23 ->
                  case Graphics.UI.Fungen.Objects.$wfindObjectFromIdAux
                         @ ()
@@ -968,7 +971,7 @@ cfc34d465d93bfabb70882fdc2132a54
                  case GHC.Prim.tagToEnum#
                         @ GHC.Types.Bool
                         (GHC.Prim.<=##
-                           (GHC.Prim.+## (GHC.Prim.+## x (GHC.Prim./## x1 2.0##)) 6.0##)
+                           (GHC.Prim.+## (GHC.Prim.+## x (GHC.Prim./## x1 2.0##)) 30.0##)
                            1000.0##) of wild4 {
                    GHC.Types.False
                    -> case GHC.Prim.readMutVar#
@@ -1068,7 +1071,7 @@ cfc34d465d93bfabb70882fdc2132a54
                                         ds8
                                         ds9
                                         ds11
-                                        (GHC.Types.D# (GHC.Prim.+## x 6.0##), pY)
+                                        (GHC.Types.D# (GHC.Prim.+## x 30.0##), pY)
                                         ds13
                                         ds14 })
                                      ww15
@@ -1161,30 +1164,92 @@ fd72fb38d1bdc2b89b207924772faec3
       Main.GameAttribute () Main.GameState () a
 6606d68050b270b05f590eeea2bbdb25
   type RunnerObject = Graphics.UI.Fungen.Objects.GameObject ()
-64c9eb588432c9e6416f4b27e48d5884
+1d8b8753d47085e70a435ef52b64d210
   bmpList :: Graphics.UI.Fungen.Loader.FilePictureList
   {- Strictness: m2,
      Unfolding: (GHC.Types.:
                    @ (GHC.IO.FilePath, Graphics.UI.Fungen.Types.InvList)
-                   Main.bmpList1
-                   (GHC.Types.[]
-                      @ (GHC.IO.FilePath, Graphics.UI.Fungen.Types.InvList))) -}
-9b6973ccf32e66e94526b87df65b2426
-  bmpList1 ::
+                   Main.bmpList13
+                   Main.bmpList1) -}
+d72a57fd1cccac49b76361885f0ceeef
+  bmpList1 :: [(GHC.IO.FilePath, Graphics.UI.Fungen.Types.InvList)]
+  {- Strictness: m2,
+     Unfolding: (GHC.Types.:
+                   @ (GHC.IO.FilePath, Graphics.UI.Fungen.Types.InvList)
+                   Main.bmpList11
+                   Main.bmpList2) -}
+a83ae7442f22379ff04e40a20a51f136
+  bmpList10 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString# "boo.bmp"#) -}
+73928ea9ae725be2976a79be9727bc87
+  bmpList11 ::
     ([GHC.Types.Char],
      GHC.Base.Maybe [(GHC.Types.Int, GHC.Types.Int, GHC.Types.Int)])
   {- Strictness: m,
-     Unfolding: ((Main.bmpList2,
+     Unfolding: ((Main.bmpList12,
                   GHC.Base.Nothing
                     @ [(GHC.Types.Int, GHC.Types.Int, GHC.Types.Int)])) -}
-3d6c3b96a56d715877e2dd30903cc7d0
-  bmpList2 :: [GHC.Types.Char]
-  {- Unfolding: (GHC.CString.unpackCString# "tex.bmp"#) -}
-5af03664058c876ac7247821dfc80511
+3da2be54e4874023bd4aad5a30e3b68f
+  bmpList12 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString# "chefinho.bmp"#) -}
+14f7831f592a195bb0b271928a333d13
+  bmpList13 :: ([GHC.Types.Char], Graphics.UI.Fungen.Types.InvList)
+  {- Strictness: m, Unfolding: ((Main.bmpList14, Main.magenta)) -}
+6d50cdf85d1772a2d869351a5f2637c0
+  bmpList14 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString# "fruit.bmp"#) -}
+7c913d077fa1e8b1e2f6c9ab207e7ebd
+  bmpList2 :: [(GHC.IO.FilePath, Graphics.UI.Fungen.Types.InvList)]
+  {- Strictness: m2,
+     Unfolding: (GHC.Types.:
+                   @ (GHC.IO.FilePath, Graphics.UI.Fungen.Types.InvList)
+                   Main.bmpList9
+                   Main.bmpList3) -}
+419e25db261cb79c343732bf1547d76f
+  bmpList3 :: [(GHC.IO.FilePath, Graphics.UI.Fungen.Types.InvList)]
+  {- Strictness: m2,
+     Unfolding: (GHC.Types.:
+                   @ (GHC.IO.FilePath, Graphics.UI.Fungen.Types.InvList)
+                   Main.bmpList7
+                   Main.bmpList4) -}
+f6295ac1d8974230d0af7042f563b527
+  bmpList4 :: [(GHC.IO.FilePath, Graphics.UI.Fungen.Types.InvList)]
+  {- Strictness: m2,
+     Unfolding: (GHC.Types.:
+                   @ (GHC.IO.FilePath, Graphics.UI.Fungen.Types.InvList)
+                   Main.bmpList5
+                   (GHC.Types.[]
+                      @ (GHC.IO.FilePath, Graphics.UI.Fungen.Types.InvList))) -}
+c101e96298ff1a4e18781425775b0f04
+  bmpList5 :: ([GHC.Types.Char], Graphics.UI.Fungen.Types.InvList)
+  {- Strictness: m, Unfolding: ((Main.bmpList6, Main.magenta)) -}
+31ab2fd684a509e67b1d6a9bd5ee7d6d
+  bmpList6 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString# "player.bmp"#) -}
+59b64f455dff0e0ecb5f916f96d9d1be
+  bmpList7 ::
+    ([GHC.Types.Char],
+     GHC.Base.Maybe [(GHC.Types.Int, GHC.Types.Int, GHC.Types.Int)])
+  {- Strictness: m,
+     Unfolding: ((Main.bmpList8,
+                  GHC.Base.Nothing
+                    @ [(GHC.Types.Int, GHC.Types.Int, GHC.Types.Int)])) -}
+de0fc51fc1a975e3c79fc3952347201a
+  bmpList8 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString# "crash.bmp"#) -}
+af6814f02070686de5315ef029eaf3c9
+  bmpList9 ::
+    ([GHC.Types.Char],
+     GHC.Base.Maybe [(GHC.Types.Int, GHC.Types.Int, GHC.Types.Int)])
+  {- Strictness: m,
+     Unfolding: ((Main.bmpList10,
+                  GHC.Base.Nothing
+                    @ [(GHC.Types.Int, GHC.Types.Int, GHC.Types.Int)])) -}
+4da31d3e30ceb5492081e8fef57fe176
   createBoo :: Main.RunnerObject
   {- Unfolding: (case Graphics.UI.Fungen.Objects.$wobject
                         @ ()
-                        Main.createBoo19
+                        Main.createBoo8
                         Main.createBoo5
                         GHC.Types.True
                         Main.createBoo3
@@ -1204,57 +1269,6 @@ fd72fb38d1bdc2b89b207924772faec3
 cdd76066480e2b12014c295bcf913ae6
   createBoo1 :: (GHC.Types.Double, GHC.Types.Double)
   {- HasNoCafRefs, Unfolding: ((Main.createBoo2, Main.createBoo2)) -}
-b04eac32854887d1e1e7a59559ee07e6
-  createBoo10 ::
-    [(Graphics.GL.Types.GLdouble, Graphics.GL.Types.GLdouble)]
-  {- HasNoCafRefs,
-     Unfolding: (GHC.Types.:
-                   @ (Graphics.GL.Types.GLdouble, Graphics.GL.Types.GLdouble)
-                   Main.createBoo17
-                   Main.createBoo11) -}
-50e629ceb159868d53ae4a65c189f2b6
-  createBoo11 ::
-    [(Graphics.GL.Types.GLdouble, Graphics.GL.Types.GLdouble)]
-  {- HasNoCafRefs,
-     Unfolding: (GHC.Types.:
-                   @ (Graphics.GL.Types.GLdouble, Graphics.GL.Types.GLdouble)
-                   Main.createBoo16
-                   Main.createBoo12) -}
-49d910f46296126230ab85922d437bf4
-  createBoo12 ::
-    [(Graphics.GL.Types.GLdouble, Graphics.GL.Types.GLdouble)]
-  {- HasNoCafRefs,
-     Unfolding: (GHC.Types.:
-                   @ (Graphics.GL.Types.GLdouble, Graphics.GL.Types.GLdouble)
-                   Main.createBoo13
-                   (GHC.Types.[]
-                      @ (Graphics.GL.Types.GLdouble, Graphics.GL.Types.GLdouble))) -}
-1b39ec1ade3315ada776a2a6b901c061
-  createBoo13 :: (Graphics.GL.Types.GLdouble, GHC.Types.Double)
-  {- HasNoCafRefs,
-     Unfolding: ((Main.createBoo15, Main.createBoo14)) -}
-22e9a52814bff84b5b4f915ad2012fa1
-  createBoo14 :: GHC.Types.Double
-  {- HasNoCafRefs, Unfolding: (GHC.Types.D# 10.0##) -}
-84f712bb305c2b8844861d1b7dea9274
-  createBoo15 :: GHC.Types.Double
-  {- HasNoCafRefs, Unfolding: (GHC.Types.D# -10.0##) -}
-ffc21a9ae83f3ee3e0b76ad2d3194de2
-  createBoo16 :: (GHC.Types.Double, GHC.Types.Double)
-  {- HasNoCafRefs,
-     Unfolding: ((Main.createBoo14, Main.createBoo14)) -}
-3db2895fa8f9bb9af62ff68052540fb8
-  createBoo17 :: (GHC.Types.Double, Graphics.GL.Types.GLdouble)
-  {- HasNoCafRefs,
-     Unfolding: ((Main.createBoo14, Main.createBoo15)) -}
-e1937797f09bd350b47dfc859c65867d
-  createBoo18 ::
-    (Graphics.GL.Types.GLdouble, Graphics.GL.Types.GLdouble)
-  {- HasNoCafRefs,
-     Unfolding: ((Main.createBoo15, Main.createBoo15)) -}
-7340528a8642ee4cff4c4d67d673b4d6
-  createBoo19 :: [GHC.Types.Char]
-  {- Unfolding: (GHC.CString.unpackCString# "boo"#) -}
 83787c2ba124f99097df1546d98ede08
   createBoo2 :: GHC.Types.Double
   {- HasNoCafRefs, Unfolding: (GHC.Types.D# 0.0##) -}
@@ -1264,39 +1278,27 @@ e1937797f09bd350b47dfc859c65867d
 4b532f5ff0df8dddeb06d84462075f48
   createBoo4 :: GHC.Types.Double
   {- HasNoCafRefs, Unfolding: (GHC.Types.D# 500.0##) -}
-08ba0713e747d49ca11d396f368df340
+33ab648b976fac6923a0f3c30f8edc3c
   createBoo5 :: Graphics.UI.Fungen.Objects.ObjectPicture
   {- HasNoCafRefs,
-     Unfolding: (Graphics.UI.Fungen.Objects.Basic Main.createBoo6) -}
-3580fed14b5e460898d58b5551461f40
-  createBoo6 :: Graphics.UI.Fungen.Objects.Primitive
-  {- HasNoCafRefs,
-     Unfolding: (Graphics.UI.Fungen.Objects.Polyg
-                   Main.createBoo9
-                   Main.createBoo8
-                   Main.createBoo8
+     Unfolding: (Graphics.UI.Fungen.Objects.Tex
                    Main.createBoo7
-                   Graphics.UI.Fungen.Objects.Filled) -}
-d981c43009c86ac54784f5f967fd3feb
-  createBoo7 :: GHC.Types.Float
-  {- HasNoCafRefs, Unfolding: (GHC.Types.F# 1.0#) -}
-4c445b82d036a6f6c778b4f960ed5919
-  createBoo8 :: GHC.Types.Float
-  {- HasNoCafRefs, Unfolding: (GHC.Types.F# 0.0#) -}
-d99dc660d9aa857c5aa2439be374f447
-  createBoo9 ::
-    [(Graphics.GL.Types.GLdouble, Graphics.GL.Types.GLdouble)]
-  {- HasNoCafRefs,
-     Unfolding: (GHC.Types.:
-                   @ (Graphics.GL.Types.GLdouble, Graphics.GL.Types.GLdouble)
-                   Main.createBoo18
-                   Main.createBoo10) -}
-afdb8a95affe64c6ba5224eebde784af
+                   Main.createBoo6) -}
+8939c2a7f44a469469d03962d59fa162
+  createBoo6 :: GHC.Types.Int
+  {- HasNoCafRefs, Unfolding: (GHC.Types.I# 2#) -}
+a69cafa72e875af282aafd69132c63a5
+  createBoo7 :: (GHC.Types.Double, GHC.Types.Double)
+  {- HasNoCafRefs, Unfolding: ((Main.speed, Main.speed)) -}
+182a9fe29bcbc65bc1978243c6715bce
+  createBoo8 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString# "boo"#) -}
+db9dc8b5af6c6245b2cea822fbdfb00e
   createChefinho :: Main.RunnerObject
   {- Unfolding: (case Graphics.UI.Fungen.Objects.$wobject
                         @ ()
+                        Main.createChefinho3
                         Main.createChefinho1
-                        Main.createBoo5
                         GHC.Types.False
                         Main.createBoo3
                         Main.createBoo1
@@ -1312,15 +1314,24 @@ afdb8a95affe64c6ba5224eebde784af
                    ww7
                    ww8
                    ww9 }) -}
-3ca8bf0e5860d11e0ce8801b8698306b
-  createChefinho1 :: [GHC.Types.Char]
+e9714992b590417e4cedab628c00bdbd
+  createChefinho1 :: Graphics.UI.Fungen.Objects.ObjectPicture
+  {- HasNoCafRefs,
+     Unfolding: (Graphics.UI.Fungen.Objects.Tex
+                   Main.createBoo7
+                   Main.createChefinho2) -}
+5e18a4ae458d309e545824521bb39db5
+  createChefinho2 :: GHC.Types.Int
+  {- HasNoCafRefs, Unfolding: (GHC.Types.I# 1#) -}
+d53b3f7b697208ea1e8cda4dbf8bffde
+  createChefinho3 :: [GHC.Types.Char]
   {- Unfolding: (GHC.CString.unpackCString# "chefinho"#) -}
-aa3e17c7fcfe83a5a30033036fdf8a1d
+be261d0bf3ca934fe2537a3387b96e96
   createCrash :: Main.RunnerObject
   {- Unfolding: (case Graphics.UI.Fungen.Objects.$wobject
                         @ ()
+                        Main.createCrash6
                         Main.createCrash4
-                        Main.createBoo5
                         GHC.Types.True
                         Main.createCrash1
                         Main.createBoo1
@@ -1346,14 +1357,23 @@ d679650484bdb9fdfd6400ca03c12240
 91d773646f505194ca27428c61a3930e
   createCrash3 :: GHC.Types.Double
   {- HasNoCafRefs, Unfolding: (GHC.Types.D# 300.0##) -}
-754e9a12d1469ebf11b046fcd2310972
-  createCrash4 :: [GHC.Types.Char]
+69c7612f02de02f4ec41ef38562f5801
+  createCrash4 :: Graphics.UI.Fungen.Objects.ObjectPicture
+  {- HasNoCafRefs,
+     Unfolding: (Graphics.UI.Fungen.Objects.Tex
+                   Main.createBoo7
+                   Main.createCrash5) -}
+aad1f0fb5ddefc3e7fa0d14bc143de62
+  createCrash5 :: GHC.Types.Int
+  {- HasNoCafRefs, Unfolding: (GHC.Types.I# 3#) -}
+d7a33064d2d18ddc64dbfba27981cc63
+  createCrash6 :: [GHC.Types.Char]
   {- Unfolding: (GHC.CString.unpackCString# "crash"#) -}
-27d981cd797eb345ceffde857f42e939
+17b29accf448bcaab6448e90418dbe97
   createFruit :: Main.RunnerObject
   {- Unfolding: (case Graphics.UI.Fungen.Objects.$wobject
                         @ ()
-                        Main.createFruit5
+                        Main.createFruit6
                         Main.createFruit3
                         GHC.Types.False
                         Main.createFruit1
@@ -1377,28 +1397,28 @@ d679650484bdb9fdfd6400ca03c12240
 e8356b183b495c588af86508c505fdc5
   createFruit2 :: GHC.Types.Double
   {- HasNoCafRefs, Unfolding: (GHC.Types.D# 900.0##) -}
-8bd59ca8f8ce42d98cf13521ed3e314c
+9d7f32f36bae868cbdede84c9246d0a7
   createFruit3 :: Graphics.UI.Fungen.Objects.ObjectPicture
   {- HasNoCafRefs,
-     Unfolding: (Graphics.UI.Fungen.Objects.Basic Main.createFruit4) -}
-ee8f5d13341d1986c33f574f669b00e8
-  createFruit4 :: Graphics.UI.Fungen.Objects.Primitive
+     Unfolding: (Graphics.UI.Fungen.Objects.Tex
+                   Main.createFruit4
+                   Main.magenta3) -}
+170baa2059cd37e7d7151e9d75026953
+  createFruit4 :: (GHC.Types.Double, GHC.Types.Double)
   {- HasNoCafRefs,
-     Unfolding: (Graphics.UI.Fungen.Objects.Polyg
-                   Main.createBoo9
-                   Main.createBoo7
-                   Main.createBoo7
-                   Main.createBoo7
-                   Graphics.UI.Fungen.Objects.Filled) -}
-5d6f0a19c9db2c6fdfc154098be1697a
-  createFruit5 :: [GHC.Types.Char]
+     Unfolding: ((Main.createFruit5, Main.createFruit5)) -}
+594969694d08fb7c9fa8f712b6edaaa3
+  createFruit5 :: GHC.Types.Double
+  {- HasNoCafRefs, Unfolding: (GHC.Types.D# 32.0##) -}
+804e14e268fa38df93ad7a160662a78b
+  createFruit6 :: [GHC.Types.Char]
   {- Unfolding: (GHC.CString.unpackCString# "fruit"#) -}
-8b036f100f94c8d475101e8607821b9d
+c8652f2882c77be8e6cac43e3a56b6e1
   createPlayer :: Main.RunnerObject
   {- Unfolding: (case Graphics.UI.Fungen.Objects.$wobject
                         @ ()
-                        Main.createPlayer8
-                        Main.createPlayer4
+                        Main.createPlayer5
+                        Main.createPlayer3
                         GHC.Types.False
                         Main.createPlayer1
                         Main.createBoo1
@@ -1414,34 +1434,23 @@ ee8f5d13341d1986c33f574f669b00e8
                    ww7
                    ww8
                    ww9 }) -}
-e9029c6ba088e36d0e78d9c8ab8f3c69
+b12b0a62f1dd30b290ecc9228703cffa
   createPlayer1 :: (GHC.Types.Double, GHC.Types.Double)
-  {- HasNoCafRefs,
-     Unfolding: ((Main.createPlayer3, Main.createPlayer2)) -}
-27bb5988119c788f7b220e6539f79ca8
+  {- HasNoCafRefs, Unfolding: ((Main.createPlayer2, Main.speed)) -}
+749b0deec3ea7ff29e5655dc7a71afb1
   createPlayer2 :: GHC.Types.Double
-  {- HasNoCafRefs, Unfolding: (GHC.Types.D# 30.0##) -}
-425d13fdfd3111fc33df41526381dc26
-  createPlayer3 :: GHC.Types.Double
   {- HasNoCafRefs, Unfolding: (GHC.Types.D# 125.0##) -}
-5138b3ecc8de66dc195835c5bc09cd92
-  createPlayer4 :: Graphics.UI.Fungen.Objects.ObjectPicture
+191b130373bf81624102a6b7e2950929
+  createPlayer3 :: Graphics.UI.Fungen.Objects.ObjectPicture
   {- HasNoCafRefs,
      Unfolding: (Graphics.UI.Fungen.Objects.Tex
-                   Main.createPlayer6
-                   Main.createPlayer5) -}
-829d7557edced56d8a0e31acd6b1fe15
-  createPlayer5 :: GHC.Types.Int
-  {- HasNoCafRefs, Unfolding: (GHC.Types.I# 0#) -}
-3f20e8c1437e44dcb8b6bc461823f9c2
-  createPlayer6 :: (GHC.Types.Double, GHC.Types.Double)
-  {- HasNoCafRefs,
-     Unfolding: ((Main.createPlayer7, Main.createPlayer7)) -}
-319cbec6d782df9e9bfca6a6de47c3e1
-  createPlayer7 :: GHC.Types.Double
-  {- HasNoCafRefs, Unfolding: (GHC.Types.D# 50.0##) -}
-8a7fa8d69eb1b1d77b08cd4d3ab95960
-  createPlayer8 :: [GHC.Types.Char]
+                   Main.createBoo7
+                   Main.createPlayer4) -}
+b576c0b615d4c98299d515b97afbc205
+  createPlayer4 :: GHC.Types.Int
+  {- HasNoCafRefs, Unfolding: (GHC.Types.I# 4#) -}
+75e810ad3f70f42cb6ff22d1631b8861
+  createPlayer5 :: [GHC.Types.Char]
   {- Unfolding: (GHC.CString.unpackCString# "player"#) -}
 41d74fa5ed8b526cf70e40333a36fafa
   gameCycle :: Main.RunnerAction ()
@@ -1679,12 +1688,35 @@ ce2d78824a42d3c1a7822d13c19d83b3
                    ww11
                    ww12
                    w2 } } }) -}
-c4d54d34bf230e4da3c1f2b983263bcb
+e3b5a4e2639281c1e8001906b2584267
+  magenta :: Graphics.UI.Fungen.Types.InvList
+  {- HasNoCafRefs, Strictness: m2,
+     Unfolding: (GHC.Base.Just
+                   @ [(GHC.Types.Int, GHC.Types.Int, GHC.Types.Int)]
+                   Main.magenta1) -}
+a4903d5fad98feb9d6552cc812cf5779
+  magenta1 :: [(GHC.Types.Int, GHC.Types.Int, GHC.Types.Int)]
+  {- HasNoCafRefs, Strictness: m2,
+     Unfolding: (GHC.Types.:
+                   @ (GHC.Types.Int, GHC.Types.Int, GHC.Types.Int)
+                   Main.magenta2
+                   (GHC.Types.[] @ (GHC.Types.Int, GHC.Types.Int, GHC.Types.Int))) -}
+2035d1b118413b29928c082ba93f4f55
+  magenta2 :: (GHC.Types.Int, GHC.Types.Int, GHC.Types.Int)
+  {- HasNoCafRefs, Strictness: m,
+     Unfolding: ((Main.magenta4, Main.magenta3, Main.magenta4)) -}
+57e4627bc80cb4e38c0d827f423716d0
+  magenta3 :: GHC.Types.Int
+  {- HasNoCafRefs, Strictness: m, Unfolding: (GHC.Types.I# 0#) -}
+1d01d316b91ff81fbec6adaf9a70d7de
+  magenta4 :: GHC.Types.Int
+  {- HasNoCafRefs, Strictness: m, Unfolding: (GHC.Types.I# 255#) -}
+34cb96cb40abe3b95612d61bb07dd992
   main :: GHC.Types.IO ()
   {- Arity: 1, Strictness: <S,U>,
      Unfolding: InlineRule (0, True, True)
                 Main.main1 `cast` (Sym (GHC.Types.N:IO[0] <()>_R)) -}
-d930d1edeb8c8337060a137c2844ea1c
+0dc15f341b65658a4bd319b6a2421cec
   main1 ::
     GHC.Prim.State# GHC.Prim.RealWorld
     -> (# GHC.Prim.State# GHC.Prim.RealWorld, () #)
@@ -1696,13 +1728,13 @@ d930d1edeb8c8337060a137c2844ea1c
                    @ ()
                    @ Main.GameState
                    @ Main.GameAttribute
-                   Main.createPlayer5
-                   Main.createPlayer5
+                   Main.magenta3
+                   Main.magenta3
                    Main.screenWidth
                    Main.screenWidth
                    Main.main57
-                   Main.main53
-                   Main.main37
+                   Main.main52
+                   Main.main36
                    Main.main_s1
                    Main.main_ga
                    Main.main4
@@ -1855,7 +1887,7 @@ c2d54afd4d998cf6da21dc5bbc194d16
 df3ef643998ad9d3bcd7e4331b74780a
   main18 :: GHC.Types.Char
   {- HasNoCafRefs, Unfolding: (GHC.Types.C# 'q'#) -}
-3f9c931b23c63b309afc3493b0b3eec0
+0d4048e684af7cfad97f6fbacde7ff1c
   main19 ::
     (Graphics.UI.GLUT.Callbacks.Window.Key,
      Graphics.UI.GLUT.Input.KeyEvent,
@@ -1880,11 +1912,11 @@ df3ef643998ad9d3bcd7e4331b74780a
                                       <Main.GameState>_R
                                       <()>_R
                                       <()>_R))))) -}
-8d44e1bbf17688a28619602e17d718eb
+a66fa85c4ebd4aa2dc03c58809f71185
   main2 :: Graphics.UI.Fungen.Timer.RefreshType
   {- HasNoCafRefs,
      Unfolding: (Graphics.UI.Fungen.Timer.Timer Main.main3) -}
-4c13f3829641db05e310097914b8a286
+62e9beebebe790d1d4b9eb6323d7fc14
   main20 ::
     Graphics.UI.GLUT.Callbacks.Window.Modifiers
     -> Graphics.Rendering.OpenGL.GL.CoordTrans.Position
@@ -1903,7 +1935,7 @@ df3ef643998ad9d3bcd7e4331b74780a
                              Main.GameAttribute () Main.GameState ())
                    (eta1 :: GHC.Prim.State# GHC.Prim.RealWorld)[OneShot] ->
                  Main.main21 eta eta1) -}
-8ff2dbb994e941b5c2524097929f99ae
+1c1ff32f9441bcb56bbac81ec1edf5a4
   main21 ::
     Graphics.UI.Fungen.Game.Game
       Main.GameAttribute () Main.GameState ()
@@ -1933,7 +1965,7 @@ df3ef643998ad9d3bcd7e4331b74780a
   {- HasNoCafRefs,
      Unfolding: (Graphics.UI.GLUT.Callbacks.Window.SpecialKey
                    Graphics.UI.GLUT.Callbacks.Window.KeyDown) -}
-638a9f79f65d610d2b94e875ef88e175
+577fa6612b9f2c02d4bfd184d75b4c98
   main24 ::
     (Graphics.UI.GLUT.Callbacks.Window.Key,
      Graphics.UI.GLUT.Input.KeyEvent,
@@ -1958,7 +1990,7 @@ df3ef643998ad9d3bcd7e4331b74780a
                                       <Main.GameState>_R
                                       <()>_R
                                       <()>_R))))) -}
-51a21162277db13bf816afc8b514b3a7
+52e310ec228bee12d441e6d28e65bd6f
   main25 ::
     Graphics.UI.GLUT.Callbacks.Window.Modifiers
     -> Graphics.Rendering.OpenGL.GL.CoordTrans.Position
@@ -1977,7 +2009,7 @@ df3ef643998ad9d3bcd7e4331b74780a
                              Main.GameAttribute () Main.GameState ())
                    (eta1 :: GHC.Prim.State# GHC.Prim.RealWorld)[OneShot] ->
                  Main.main26 eta eta1) -}
-79dd1443cb97edf3801a36ebd218c531
+d6488132e415cf22908f08461a348cfb
   main26 ::
     Graphics.UI.Fungen.Game.Game
       Main.GameAttribute () Main.GameState ()
@@ -2004,7 +2036,7 @@ df3ef643998ad9d3bcd7e4331b74780a
   {- HasNoCafRefs,
      Unfolding: (Graphics.UI.GLUT.Callbacks.Window.SpecialKey
                    Graphics.UI.GLUT.Callbacks.Window.KeyUp) -}
-163aa6e9b5d047507beeb2a5c930d478
+d4ad791fc8e43e09cbc31c993328f2d1
   main28 ::
     (Graphics.UI.GLUT.Callbacks.Window.Key,
      Graphics.UI.GLUT.Input.KeyEvent,
@@ -2029,7 +2061,7 @@ df3ef643998ad9d3bcd7e4331b74780a
                                       <Main.GameState>_R
                                       <()>_R
                                       <()>_R))))) -}
-6a33ea3932735047d0a166b91c648bd7
+62f1533807b2361f000712e99006d7ea
   main29 ::
     Graphics.UI.GLUT.Callbacks.Window.Modifiers
     -> Graphics.Rendering.OpenGL.GL.CoordTrans.Position
@@ -2048,10 +2080,10 @@ df3ef643998ad9d3bcd7e4331b74780a
                              Main.GameAttribute () Main.GameState ())
                    (eta1 :: GHC.Prim.State# GHC.Prim.RealWorld)[OneShot] ->
                  Main.main30 eta eta1) -}
-e0503e1a8c148e01b241920e972ade92
+fd5a9787207f6b0b3bde61565d7f8c53
   main3 :: GHC.Types.Int
-  {- HasNoCafRefs, Unfolding: (GHC.Types.I# 40#) -}
-84806e3123eb5168c6d3987f3f934545
+  {- HasNoCafRefs, Unfolding: (GHC.Types.I# 50#) -}
+118bb795cd480ad3bc3f818b73c3e6f2
   main30 ::
     Graphics.UI.Fungen.Game.Game
       Main.GameAttribute () Main.GameState ()
@@ -2078,7 +2110,7 @@ e0503e1a8c148e01b241920e972ade92
   {- HasNoCafRefs,
      Unfolding: (Graphics.UI.GLUT.Callbacks.Window.SpecialKey
                    Graphics.UI.GLUT.Callbacks.Window.KeyLeft) -}
-388a5077540a2e187d9c8f292f375e48
+e0b5333b868dceb677e61d040bd6d76d
   main32 ::
     (Graphics.UI.GLUT.Callbacks.Window.Key,
      Graphics.UI.GLUT.Input.KeyEvent,
@@ -2103,7 +2135,7 @@ e0503e1a8c148e01b241920e972ade92
                                       <Main.GameState>_R
                                       <()>_R
                                       <()>_R))))) -}
-2039e12fc194ef3a2a0f2a9057d262a9
+790badcb72b962519185029455affab5
   main33 ::
     Graphics.UI.GLUT.Callbacks.Window.Modifiers
     -> Graphics.Rendering.OpenGL.GL.CoordTrans.Position
@@ -2122,7 +2154,7 @@ e0503e1a8c148e01b241920e972ade92
                              Main.GameAttribute () Main.GameState ())
                    (eta1 :: GHC.Prim.State# GHC.Prim.RealWorld)[OneShot] ->
                  Main.main34 eta eta1) -}
-2603ca1b38ef4f2080bd35a9733ec5c7
+9c5cf87527a3a2deb1aea9635d5deacc
   main34 ::
     Graphics.UI.Fungen.Game.Game
       Main.GameAttribute () Main.GameState ()
@@ -2149,28 +2181,32 @@ c38799dfecfda0d8368ffd7a34fb723b
   {- HasNoCafRefs,
      Unfolding: (Graphics.UI.GLUT.Callbacks.Window.SpecialKey
                    Graphics.UI.GLUT.Callbacks.Window.KeyRight) -}
-a47bb0f58874ea97569924ccea55f48c
-  main36 :: GHC.Types.Int
-  {- HasNoCafRefs, Strictness: m, Unfolding: (GHC.Types.I# 1#) -}
-6e14b501386dfaae4eeb0e42bf1ae9f2
+d7d3ca905e8f49edfb862774cc68ff54
+  main36 :: [Graphics.UI.Fungen.Objects.ObjectManager ()]
+  {- Unfolding: (GHC.Types.:
+                   @ (Graphics.UI.Fungen.Objects.ObjectManager ())
+                   Main.main49
+                   Main.main37) -}
+4244196a5efe576bf85ece89f42e9d78
   main37 :: [Graphics.UI.Fungen.Objects.ObjectManager ()]
   {- Unfolding: (GHC.Types.:
                    @ (Graphics.UI.Fungen.Objects.ObjectManager ())
-                   Main.main50
+                   Main.main43
                    Main.main38) -}
-c6433a732c38f31a2c434914c591bb25
+d92ceba9d2f588c0867561693cd81e65
   main38 :: [Graphics.UI.Fungen.Objects.ObjectManager ()]
   {- Unfolding: (GHC.Types.:
                    @ (Graphics.UI.Fungen.Objects.ObjectManager ())
-                   Main.main44
-                   Main.main39) -}
-26c38d0dd34f73f2c9c280ef00df4bdc
-  main39 :: [Graphics.UI.Fungen.Objects.ObjectManager ()]
-  {- Unfolding: (GHC.Types.:
-                   @ (Graphics.UI.Fungen.Objects.ObjectManager ())
-                   Main.main40
+                   Main.main39
                    (GHC.Types.[] @ (Graphics.UI.Fungen.Objects.ObjectManager ()))) -}
-02c9ebc944a260c222817104c2baf600
+8008e4707a3821f7fa9bb880bf6fef0f
+  main39 :: Graphics.UI.Fungen.Objects.ObjectManager ()
+  {- Unfolding: (Graphics.UI.Fungen.Objects.OM
+                   @ ()
+                   Main.main41
+                   Main.main42
+                   Main.main40) -}
+baa2cde9ffe8beb8ba6cb3f5f9519f22
   main4 ::
     [(Graphics.UI.GLUT.Callbacks.Window.Key,
       Graphics.UI.GLUT.Input.KeyEvent,
@@ -2185,67 +2221,67 @@ c6433a732c38f31a2c434914c591bb25
                       -> Main.RunnerAction ())
                    Main.main32
                    Main.main5) -}
-a31e341f48164a37dbd8d0f4e91f5bf5
-  main40 :: Graphics.UI.Fungen.Objects.ObjectManager ()
-  {- Unfolding: (Graphics.UI.Fungen.Objects.OM
-                   @ ()
-                   Main.main42
-                   Main.main43
-                   Main.main41) -}
-52e75151f1a0383c66c15fd5d6ec90fa
-  main41 :: [Graphics.UI.Fungen.Objects.GameObject ()]
+370eb8041fe6e4ec7221051672699c67
+  main40 :: [Graphics.UI.Fungen.Objects.GameObject ()]
   {- Unfolding: (Graphics.UI.Fungen.Objects.objectGroupAux
                    @ ()
                    Main.main_w1
-                   Main.main42
+                   Main.main41
                    Graphics.UI.Fungen.Objects.object2) -}
-3436e26c37e4f2bca668a7bb4a7fc7d1
-  main42 :: [GHC.Types.Char]
+17da98006388b95fd32cb7b125a8be78
+  main41 :: [GHC.Types.Char]
   {- Unfolding: (GHC.CString.unpackCString# "fruitGroup"#) -}
-96759c8d6f4ddc26d17333559a266a25
-  main43 :: GHC.Integer.Type.Integer
+c1cc4bed5d004a38f21ecd0669692e12
+  main42 :: GHC.Integer.Type.Integer
   {- Unfolding: (case GHC.List.$wlenAcc
                         @ (Graphics.UI.Fungen.Objects.GameObject ())
                         Main.main_w1
                         0# of ww2 { DEFAULT ->
                  GHC.Integer.Type.smallInteger ww2 }) -}
-ea703615b15c07fb31fd69fe767eea0e
-  main44 :: Graphics.UI.Fungen.Objects.ObjectManager ()
+ee3b8d4344a708ef9a9a083a19ef6cd1
+  main43 :: Graphics.UI.Fungen.Objects.ObjectManager ()
   {- Unfolding: (Graphics.UI.Fungen.Objects.OM
                    @ ()
-                   Main.main46
-                   Main.main49
-                   Main.main45) -}
-bfb62d43480a03473ddbeb216cd0839a
-  main45 :: [Graphics.UI.Fungen.Objects.GameObject ()]
+                   Main.main45
+                   Main.main48
+                   Main.main44) -}
+7ed5a259c5f872d9cd0166e2c510bf6e
+  main44 :: [Graphics.UI.Fungen.Objects.GameObject ()]
   {- Unfolding: (Graphics.UI.Fungen.Objects.objectGroupAux
                    @ ()
                    Main.main_w2
-                   Main.main46
+                   Main.main45
                    Graphics.UI.Fungen.Objects.object2) -}
-9ea25b4a09b85381d417ff0c2cb7108e
-  main46 :: [GHC.Types.Char]
+84e7560724639b348c019be47481f82e
+  main45 :: [GHC.Types.Char]
   {- Unfolding: (GHC.CString.unpackCString# "ghostGroup"#) -}
-e4ef952bab7f05092de72c7412d6e178
-  main47 :: [Graphics.UI.Fungen.Objects.GameObject ()]
+982e19896d7b82648b9b78f67ae37acd
+  main46 :: [Graphics.UI.Fungen.Objects.GameObject ()]
   {- Unfolding: (GHC.Types.:
                    @ (Graphics.UI.Fungen.Objects.GameObject ())
                    Main.createCrash
-                   Main.main48) -}
-c260fa699046fbf3bc19400cd58cad03
-  main48 :: [Graphics.UI.Fungen.Objects.GameObject ()]
+                   Main.main47) -}
+f6322761622b10eefa18da6cb8699b53
+  main47 :: [Graphics.UI.Fungen.Objects.GameObject ()]
   {- Unfolding: (GHC.Types.:
                    @ (Graphics.UI.Fungen.Objects.GameObject ())
                    Main.createBoo
                    (GHC.Types.[] @ (Graphics.UI.Fungen.Objects.GameObject ()))) -}
-cdc90d501c26ab6b874f53ae37f19279
-  main49 :: GHC.Integer.Type.Integer
+b8a522b1db9c4828372c98c80754ab62
+  main48 :: GHC.Integer.Type.Integer
   {- Unfolding: (case GHC.List.$wlenAcc
                         @ (Graphics.UI.Fungen.Objects.GameObject ())
                         Main.main_w2
                         0# of ww2 { DEFAULT ->
                  GHC.Integer.Type.smallInteger ww2 }) -}
-1a2d63f2004aa607adc3b94bdc7a2ab5
+7abed851d57541c594631797c9cd31b8
+  main49 :: Graphics.UI.Fungen.Objects.ObjectManager ()
+  {- Unfolding: (Graphics.UI.Fungen.Objects.OM
+                   @ ()
+                   Main.main22
+                   Main.main51
+                   Main.main50) -}
+e8fa215b2feb4bbe4b4ef9234241bbe8
   main5 ::
     [(Graphics.UI.GLUT.Callbacks.Window.Key,
       Graphics.UI.GLUT.Input.KeyEvent,
@@ -2260,51 +2296,47 @@ cdc90d501c26ab6b874f53ae37f19279
                       -> Main.RunnerAction ())
                    Main.main28
                    Main.main6) -}
-ba83bb32e902841582fcde1e9b0cbf47
-  main50 :: Graphics.UI.Fungen.Objects.ObjectManager ()
-  {- Unfolding: (Graphics.UI.Fungen.Objects.OM
-                   @ ()
-                   Main.main22
-                   Main.main52
-                   Main.main51) -}
-88a673592c25881ab6130487182d288d
-  main51 :: [Graphics.UI.Fungen.Objects.GameObject ()]
+117e0fb4c1224221754f298f136e0b6c
+  main50 :: [Graphics.UI.Fungen.Objects.GameObject ()]
   {- Unfolding: (Graphics.UI.Fungen.Objects.objectGroupAux
                    @ ()
                    Main.main_w3
                    Main.main22
                    Graphics.UI.Fungen.Objects.object2) -}
-bcdbdd1ccdb9931fc6ba6650f9cc8a5f
-  main52 :: GHC.Integer.Type.Integer
+961649da712df026958fab43b309abe2
+  main51 :: GHC.Integer.Type.Integer
   {- Unfolding: (case GHC.List.$wlenAcc
                         @ (Graphics.UI.Fungen.Objects.GameObject ())
                         Main.main_w3
                         0# of ww2 { DEFAULT ->
                  GHC.Integer.Type.smallInteger ww2 }) -}
-15288584653fee092eaeb897c1d73ccb
-  main53 :: Graphics.UI.Fungen.Map.GameMap ()
+953d53c08a78df9d8d36afee3fc6eaa1
+  main52 :: Graphics.UI.Fungen.Map.GameMap ()
   {- HasNoCafRefs,
      Unfolding: (Graphics.UI.Fungen.Map.ColorMap
                    @ ()
-                   Main.main56
-                   Main.main54) -}
-f7a93803c980e2090967160874474344
-  main54 :: (Graphics.GL.Types.GLdouble, Graphics.GL.Types.GLdouble)
-  {- HasNoCafRefs, Unfolding: ((Main.main55, Main.main55)) -}
-6f77319eedce1c4a3f1f65111d7d66aa
-  main55 :: GHC.Types.Double
+                   Main.main55
+                   Main.main53) -}
+6014122a1389c16e4fe8f728afda52d7
+  main53 :: (Graphics.GL.Types.GLdouble, Graphics.GL.Types.GLdouble)
+  {- HasNoCafRefs, Unfolding: ((Main.main54, Main.main54)) -}
+a707f0f10b8a21b68cca7661e424f127
+  main54 :: GHC.Types.Double
   {- HasNoCafRefs, Unfolding: (GHC.Types.D# 1000.0##) -}
-4a0aa3406b04db4b7049d803813661a7
-  main56 ::
+9c9720f7b8ce02f7166571dfea6b4a77
+  main55 ::
     Graphics.Rendering.OpenGL.GL.VertexAttributes.Color4
       Graphics.GL.Types.GLclampf
   {- HasNoCafRefs,
      Unfolding: (Graphics.Rendering.OpenGL.GL.VertexAttributes.Color4
                    @ Graphics.GL.Types.GLclampf
-                   Main.createBoo7
-                   Main.createBoo8
-                   Main.createBoo8
+                   Main.main56
+                   Main.main56
+                   Main.main56
                    Graphics.UI.Fungen.Map.colorMap1) -}
+ff73f5be9a7a81ff89346b2c51376e6b
+  main56 :: GHC.Types.Float
+  {- HasNoCafRefs, Unfolding: (GHC.Types.F# 0.0#) -}
 f2094a83fe040a417ae0da2b70335236
   main57 :: [GHC.Types.Char]
   {- Unfolding: (GHC.CString.unpackCString# "Runner"#) -}
@@ -2315,7 +2347,7 @@ f2094a83fe040a417ae0da2b70335236
     -> (# GHC.Prim.State# GHC.Prim.RealWorld,
           [(GHC.IO.FilePath, Graphics.UI.Fungen.Types.InvList)] #)
   {- Arity: 2, Strictness: <S,1*U><S,U> -}
-dc222f0b0fb7822b0e258c1692043a92
+4bbe80672b0c639694126da0bc5e8976
   main59 ::
     GHC.Prim.State# GHC.Prim.RealWorld
     -> (# GHC.Prim.State# GHC.Prim.RealWorld, () #)
@@ -2323,7 +2355,7 @@ dc222f0b0fb7822b0e258c1692043a92
      Unfolding: (GHC.TopHandler.runMainIO1
                    @ ()
                    Main.main1 `cast` (Sym (GHC.Types.N:IO[0] <()>_R))) -}
-c3fc8e3e4841d383ba5bc44d189eb196
+b2c7c8cd583fc82b318bcf56329a511f
   main6 ::
     [(Graphics.UI.GLUT.Callbacks.Window.Key,
       Graphics.UI.GLUT.Input.KeyEvent,
@@ -2338,7 +2370,7 @@ c3fc8e3e4841d383ba5bc44d189eb196
                       -> Main.RunnerAction ())
                    Main.main24
                    Main.main7) -}
-fa25efc4695759f0994920d421912e2d
+af225afafa8e9b0645edf9f3959b1afb
   main7 ::
     [(Graphics.UI.GLUT.Callbacks.Window.Key,
       Graphics.UI.GLUT.Input.KeyEvent,
@@ -2388,33 +2420,33 @@ b4050b8742bde24967ef0c091b4e1037
                          Graphics.UI.GLUT.Callbacks.Window.Modifiers
                          -> Graphics.Rendering.OpenGL.GL.CoordTrans.Position
                          -> Main.RunnerAction ()))) -}
-6d65225bc47b3821b82a5c2a60103f26
+a86f2eb86723b8ba54e475641bf53b5e
   main_ga :: Main.GameAttribute
   {- HasNoCafRefs, Strictness: m,
-     Unfolding: (Main.Score Main.createPlayer5) -}
-9ab844932de1f7bcb90e3fc51600b097
+     Unfolding: (Main.Score Main.magenta3) -}
+cb5858a2599f23ea41ca7252d999aa75
   main_s1 :: Main.GameState
   {- HasNoCafRefs, Strictness: m,
-     Unfolding: (Main.Level Main.main36) -}
-b1ac9af2bcb8648bdb13cc106c7e8447
+     Unfolding: (Main.Level Main.createChefinho2) -}
+993561c0878946ba30d45072f3ff790a
   main_w1 :: [Graphics.UI.Fungen.Objects.GameObject ()]
   {- Unfolding: (GHC.Types.:
                    @ (Graphics.UI.Fungen.Objects.GameObject ())
                    Main.createFruit
                    (GHC.Types.[] @ (Graphics.UI.Fungen.Objects.GameObject ()))) -}
-85ca3aa0b9f399160e2eb01ec0bc135e
+26afc14a63ec82bd7c57b89b58dbf447
   main_w2 :: [Graphics.UI.Fungen.Objects.GameObject ()]
   {- Unfolding: (GHC.Types.:
                    @ (Graphics.UI.Fungen.Objects.GameObject ())
                    Main.createChefinho
-                   Main.main47) -}
-e5cd2d9ad14e3d78c4906d8f35c31a44
+                   Main.main46) -}
+1f79e9066e7f258ea3612b508af7f37a
   main_w3 :: [Graphics.UI.Fungen.Objects.GameObject ()]
   {- Unfolding: (GHC.Types.:
                    @ (Graphics.UI.Fungen.Objects.GameObject ())
                    Main.createPlayer
                    (GHC.Types.[] @ (Graphics.UI.Fungen.Objects.GameObject ()))) -}
-b535f3d954fb402ee39bc629743eb7b1
+a3e786c5d82bdbea0ba48f55afef2b69
   movePlayerToDown ::
     Graphics.UI.GLUT.Callbacks.Window.Modifiers
     -> Graphics.Rendering.OpenGL.GL.CoordTrans.Position
@@ -2438,7 +2470,7 @@ b535f3d954fb402ee39bc629743eb7b1
                                     <Main.GameState>_R
                                     <()>_R
                                     <()>_R))) -}
-dc079dac9c81a5920cfc8f255cec8ee4
+f945639995b4d502cb02c6c7b7b5d6f3
   movePlayerToLeft ::
     Graphics.UI.GLUT.Callbacks.Window.Modifiers
     -> Graphics.Rendering.OpenGL.GL.CoordTrans.Position
@@ -2462,7 +2494,7 @@ dc079dac9c81a5920cfc8f255cec8ee4
                                     <Main.GameState>_R
                                     <()>_R
                                     <()>_R))) -}
-c10b0ec16d281ae24ffae604f7967724
+4bda9b7bc22122913c2da3f5faceb9af
   movePlayerToRight ::
     Graphics.UI.GLUT.Callbacks.Window.Modifiers
     -> Graphics.Rendering.OpenGL.GL.CoordTrans.Position
@@ -2486,7 +2518,7 @@ c10b0ec16d281ae24ffae604f7967724
                                     <Main.GameState>_R
                                     <()>_R
                                     <()>_R))) -}
-15fd7f4d1cad70c21d1b8e914d57c29f
+8c5322a43c31858b74480673fc48a46c
   movePlayerToUp ::
     Graphics.UI.GLUT.Callbacks.Window.Modifiers
     -> Graphics.Rendering.OpenGL.GL.CoordTrans.Position
@@ -2631,9 +2663,9 @@ a2599133a74d1832e3be7fa878d770bf
                                <Main.GameState>_R
                                <()>_R
                                <()>_R))) -}
-ed6a6545ea291b994f983572b1114113
+e6740924ed3e8b4521788f7f06363676
   speed :: GHC.Types.Double
-  {- HasNoCafRefs, Strictness: m, Unfolding: (GHC.Types.D# 6.0##) -}
+  {- HasNoCafRefs, Strictness: m, Unfolding: (GHC.Types.D# 30.0##) -}
 vectorised variables:
 vectorised tycons:
 vectorised reused tycons:

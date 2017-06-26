@@ -13,15 +13,7 @@ build-type:          Simple
 extra-source-files:  README.md
 cabal-version:       >=1.10
 data-files:
-                    app/*.bmp,
                     app/*.bmp
-
-build-depends:
-                  base == 4.*
-                 ,base-compat
-                 ,OpenGL
-                 ,GLUT
-                 ,random
 
 executable runner-exe
   hs-source-dirs:      app
