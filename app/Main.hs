@@ -14,11 +14,12 @@ screenHeight = 1000;
 speed :: Double
 speed = 6.0
 
+bmpList :: FilePictureList
+bmpList = [("tex.bmp",          Nothing)]
+
 main :: IO ()
 main = do
-  texbmp <- getDataFileName "app/tex.bmp"
   let winConfig = ((0,0),(screenWidth,screenHeight),"Runner")
-      bmpList = [(texbmp, Nothing)]
       gameMap = (colorMap 1.0 0.0 0.0 1000 1000)
       player    = objectGroup "playerGroup" [createPlayer]
       ghost     = objectGroup "ghostGroup" [createChefinho, createCrash, createBoo]
@@ -33,7 +34,8 @@ main = do
         ,(Char 'q',            Press,     \_ _ -> funExit)
         ,(Char 'r',            Press, restartGame)
         ]
-  funInit winConfig gameMap groups (Level 1) initScore input gameCycle (Timer 40) bmpList
+  bmpList' <- mapM (\(a,b) -> do { a' <- getDataFileName ("app/"++a); return (a', b)}) bmpList
+  funInit winConfig gameMap groups (Level 1) initScore input gameCycle (Timer 40) bmpList'
 
 restartGame :: Modifiers -> Position -> RunnerAction()
 restartGame _ _ = do
@@ -54,8 +56,7 @@ setInitGame = do
   setObjectPosition (900,900) fruit
 
 createPlayer :: RunnerObject
-createPlayer = let barBound = [(-10,-10),(10,-10),(10,10),(-10,10)]
-                   barPic = Basic (Polyg barBound 0.0 0.0 0.0 Filled)
+createPlayer = let barPic = Tex (50,50) 0
                in object "player" barPic False (125,30) (0,0) ()
 
 createChefinho :: RunnerObject
