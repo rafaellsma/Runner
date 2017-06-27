@@ -133,9 +133,9 @@ gameCycle = do
           else return()
         case level of
           0 -> do
-            printOnScreen (show("Perdeu!")) TimesRoman24 (500,500) 1.0 1.0 1.0
-            printOnScreen (show("Aperte Q para sair")) TimesRoman10 (500,300) 1.0 1.0 1.0
-            printOnScreen (show("Aperte r para recomecar")) TimesRoman10 (480,200) 1.0 1.0 1.0
+            printOnScreen (show("Score "++ show(n))) TimesRoman24 (450,500) 1.0 1.0 1.0
+            printOnScreen (show("Aperte Q para sair")) TimesRoman10 (450,300) 1.0 1.0 1.0
+            printOnScreen (show("Aperte r para recomecar")) TimesRoman10 (440,200) 1.0 1.0 1.0
             chefinho <- findObject "chefinho" "ghostGroup"
             crash <- findObject "crash" "ghostGroup"
             boo <- findObject "boo" "ghostGroup"
@@ -162,7 +162,6 @@ levelOne (Score n) = do
   colFruitPlayer <- objectsCollision fruit player
   if colChefinhoPlayer
     then do
-      setGameAttribute (Score 0)
       setGameState (Level 0)
     else do
       if colFruitPlayer
@@ -188,7 +187,6 @@ levelTwo (Score n) = do
   colFruitPlayer <- objectsCollision fruit player
   if (or [colChefinhoPlayer, colCrashPlayer])
     then do
-      setGameAttribute (Score 0)
       setGameState (Level 0)
     else do
       if colFruitPlayer
@@ -218,7 +216,6 @@ levelThree (Score n) = do
   colFruitPlayer <- objectsCollision fruit player
   if (or [colChefinhoPlayer, colCrashPlayer, colBooPlayer])
     then do
-      setGameAttribute (Score 0)
       setGameState (Level 0)
     else do
       if colFruitPlayer
