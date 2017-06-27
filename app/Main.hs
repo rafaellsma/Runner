@@ -6,7 +6,11 @@ import Paths_runner (getDataFileName)
 data GameAttribute = Score Int
 data GameState = Level Int
 type RunnerObject = GameObject ()
-type RunnerAction a = IOGame GameAttribute () GameState () a
+type RunnerAction a = IOGame GameAttribute () GameState TileAttribute a
+
+data TileAttribute = NoTileAttribute
+type RunnerTile = Tile TileAttribute
+type RunnerMap = TileMatrix TileAttribute 
 
 screenWidth, screenHeight :: Int
 screenWidth = 1000;
@@ -23,12 +27,93 @@ bmpList = [("fruit.bmp", magenta),
            ("chefinho.bmp", Nothing),
            ("boo.bmp", Nothing),
            ("crash.bmp", Nothing),
-           ("player.bmp", magenta)]
+           ("player.bmp", magenta),
+           ("wall.bmp", Nothing),
+           ("border.bmp", Nothing)]
+
+tileSize :: Double
+tileSize = 50.0
+
+free,border::Int
+free  = 5
+border = 6
+
+b,f::RunnerTile
+b = (border, True,  0.0, NoTileAttribute)
+f = (free, False, 0.0, NoTileAttribute)
+
+map1::RunnerMap
+map1 = [[f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f],
+        [f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f],
+        [f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f],
+        [f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f],
+        [f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f],
+        [f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f],
+        [f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f],
+        [f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f],
+        [f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f],
+        [f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f],
+        [f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f],
+        [f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f],
+        [f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f],
+        [f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f],
+        [f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f],
+        [f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f],
+        [f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f],
+        [f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f],
+        [f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f],
+        [f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f]]
+
+map2::RunnerMap
+map2 = [[b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b],
+        [b,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,b],
+        [b,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,b],
+        [b,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,b],
+        [b,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,b],
+        [b,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,b],
+        [b,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,b],
+        [b,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,b],
+        [b,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,b],
+        [b,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,b],
+        [b,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,b],
+        [b,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,b],
+        [b,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,b],
+        [b,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,b],
+        [b,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,b],
+        [b,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,b],
+        [b,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,b],
+        [b,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,b],
+        [b,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,b],
+        [b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b]]
+
+map3::RunnerMap
+map3 = [[f,f,f,f,f,f,f,f,f,f,b,b,b,b,b,b,b,b,b,b],
+        [f,f,f,f,f,f,f,f,f,f,b,f,f,f,f,f,f,f,f,f],
+        [f,f,f,f,f,f,f,f,f,f,b,f,f,f,f,f,f,f,f,f],
+        [f,f,f,f,f,f,f,f,f,f,b,f,f,f,f,f,f,f,f,f],
+        [f,f,f,f,f,f,f,f,f,f,b,f,f,f,f,f,f,f,f,f],
+        [f,f,f,f,f,f,f,f,f,f,b,f,f,f,f,f,f,f,f,f],
+        [f,f,f,f,f,f,f,f,f,f,b,f,f,f,f,f,f,f,f,f],
+        [f,f,f,f,f,f,f,f,f,f,b,f,f,f,f,f,f,f,f,f],
+        [f,f,f,f,f,f,f,f,f,f,b,f,f,f,f,f,f,f,f,f],
+        [f,f,f,f,f,f,f,f,f,f,b,f,f,f,f,f,f,f,f,f],
+        [f,f,f,f,f,f,f,f,f,f,b,f,f,f,f,f,f,f,f,f],
+        [f,f,f,f,f,f,f,f,f,f,b,f,f,f,f,f,f,f,f,f],
+        [f,f,f,f,f,f,f,f,f,f,b,f,f,f,f,f,f,f,f,f],
+        [f,f,f,f,f,f,f,f,f,f,b,f,f,f,f,f,f,f,f,f],
+        [f,f,f,f,f,f,f,f,f,f,b,f,f,f,f,f,f,f,f,f],
+        [f,f,f,f,f,f,f,f,f,f,b,f,f,f,f,f,f,f,f,f],
+        [f,f,f,f,f,f,f,f,f,f,b,f,f,f,f,f,f,f,f,f],
+        [f,f,f,f,f,f,f,f,f,f,b,f,f,f,f,f,f,f,f,f],
+        [f,f,f,f,f,f,f,f,f,f,b,f,f,f,f,f,f,f,f,f],
+        [b,b,b,b,b,b,b,b,b,b,b,f,f,f,f,f,f,f,f,f]]
 
 main :: IO ()
 main = do
   let winConfig = ((0,0),(screenWidth,screenHeight),"Runner")
-      gameMap = (colorMap 0.0 0.0 0.0 1000 1000)
+      gameMap = multiMap [(tileMap map1 tileSize tileSize),
+                          (tileMap map2 tileSize tileSize),
+                          (tileMap map3 tileSize tileSize)] 0
       player    = objectGroup "playerGroup" [createPlayer]
       ghost     = objectGroup "ghostGroup" [createChefinho, createCrash, createBoo]
       fruit     = objectGroup "fruitGroup" [createFruit]
@@ -42,7 +127,7 @@ main = do
         ,(Char 'q',            Press,     \_ _ -> funExit)
         ,(Char 'r',            Press, restartGame)
         ]
-  bmpList' <- mapM (\(a,b) -> do { a' <- getDataFileName ("app/"++a); return (a', b)}) bmpList
+  bmpList' <- mapM (\(a,f) -> do { a' <- getDataFileName ("app/"++a); return (a', f)}) bmpList
   funInit winConfig gameMap groups (Level 1) initScore input gameCycle (Timer 50) bmpList'
 
 restartGame :: Modifiers -> Position -> RunnerAction()
@@ -150,14 +235,28 @@ gameCycle = do
           2 -> levelTwo (Score n)
           3 -> levelThree (Score n)
 
+setNewMap :: Int -> RunnerAction ()
+setNewMap 1 = setCurrentMapIndex 0
+setNewMap 2 = setCurrentMapIndex 1
+setNewMap 3 = setCurrentMapIndex 2
+setNewMap _ = return ()
+
+-- checkWallCollision :: RunnerObject -> RunnerAction()
+-- checkWallCollision player = do
+--   playerPos <- getObjectPosition player
+--   tile <- getTileFromWindowPosition playerPos
+--   if (getBlockedTile tile) then
+--     do 
+  
 
 levelOne :: GameAttribute ->  RunnerAction()
 levelOne (Score n) = do
+  setNewMap 1
   chefinho <- findObject "chefinho" "ghostGroup"
   player <- findObject "player" "playerGroup"
   fruit <- findObject "fruit" "fruitGroup"
   setObjectAsleep False chefinho
-  movingGhost 22.0 chefinho player
+  movingGhost 2.0 chefinho player
   colChefinhoPlayer <- objectsCollision chefinho player
   colFruitPlayer <- objectsCollision fruit player
   if colChefinhoPlayer
@@ -175,14 +274,15 @@ levelOne (Score n) = do
 
 levelTwo :: GameAttribute ->  RunnerAction()
 levelTwo (Score n) = do
+  setNewMap 2
   chefinho <- findObject "chefinho" "ghostGroup"
   crash <- findObject "crash" "ghostGroup"
   player <- findObject "player" "playerGroup"
   fruit <- findObject "fruit" "fruitGroup"
   setObjectAsleep False chefinho
   setObjectAsleep False crash
-  movingGhost 22.0 chefinho player
-  movingGhost 23.7 crash player
+  movingGhost 2.0 chefinho player
+  movingGhost 3.7 crash player
   colChefinhoPlayer <- objectsCollision chefinho player
   colCrashPlayer <- objectsCollision crash player
   colFruitPlayer <- objectsCollision fruit player
@@ -201,6 +301,7 @@ levelTwo (Score n) = do
 
 levelThree :: GameAttribute ->  RunnerAction()
 levelThree (Score n) = do
+  setNewMap 3
   chefinho <- findObject "chefinho" "ghostGroup"
   crash <- findObject "crash" "ghostGroup"
   boo <- findObject "boo" "ghostGroup"
@@ -209,9 +310,9 @@ levelThree (Score n) = do
   setObjectAsleep False chefinho
   setObjectAsleep False crash
   setObjectAsleep False boo
-  movingGhost 22.5 chefinho player
-  movingGhost 23.0 crash player
-  movingGhost 25.5 boo player
+  movingGhost 2.5 chefinho player
+  movingGhost 3.0 crash player
+  movingGhost 5.5 boo player
   colChefinhoPlayer <- objectsCollision chefinho player
   colCrashPlayer <- objectsCollision crash player
   colBooPlayer <- objectsCollision boo player
