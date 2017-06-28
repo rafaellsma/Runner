@@ -253,7 +253,7 @@ levelOne (Score n _) = do
   setObjectAsleep False chefinho
   setObjectAsleep False player
   setObjectAsleep False fruit
-  movingGhost (speed * 0.10) chefinho player
+  movingGhost (speed * 0.20) chefinho player
   movingPlayer
   colChefinhoPlayer <- objectsCollision chefinho player
   colFruitPlayer <- objectsCollision fruit player
@@ -279,8 +279,8 @@ levelTwo (Score n _) = do
   setObjectAsleep False crash
   setObjectAsleep False player
   setObjectAsleep False fruit
-  movingGhost (speed * 0.10) chefinho player
-  movingGhost (speed * 0.10) crash player
+  movingGhost (speed * 0.20) chefinho player
+  movingGhost (speed * 0.30) crash player
   movingPlayer
   colChefinhoPlayer <- objectsCollision chefinho player
   colCrashPlayer <- objectsCollision crash player
@@ -309,9 +309,9 @@ levelThree (Score n _) = do
   setObjectAsleep False boo
   setObjectAsleep False player
   setObjectAsleep False fruit
-  movingGhost (speed * 0.10) chefinho player
-  movingGhost (speed * 0.10) crash player
-  movingGhost (speed * 0.10) boo player
+  movingGhost (speed * 0.20) chefinho player
+  movingGhost (speed * 0.30) crash player
+  movingGhost (speed * 0.40) boo player
   movingPlayer
   colChefinhoPlayer <- objectsCollision chefinho player
   colCrashPlayer <- objectsCollision crash player
