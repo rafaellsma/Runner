@@ -2,8 +2,8 @@ module Main where
 import Graphics.UI.Fungen
 import Paths_runner (getDataFileName)
 
-data GameAttribute = Score Int
-data GameState = Level Int
+data GameAttribute = Score Int Int
+data GameState = Level Int | GameInit Int
 type RunnerObject = GameObject ()
 type RunnerAction a = IOGame GameAttribute () GameState TileAttribute a
 
@@ -33,8 +33,8 @@ bmpList = [("cherry.bmp", magenta),
            ("boo.bmp", magenta),
            ("crash.bmp", magenta),
            ("playerright.bmp", magenta),
-           ("wall.bmp", Nothing),
-           ("border.bmp", Nothing),
+           ("background.bmp", Nothing),
+           ("block.bmp", Nothing),
            ("playerup.bmp", magenta),
            ("playerleft.bmp", magenta),
            ("playerdown.bmp", magenta)]
@@ -95,7 +95,7 @@ map2 = [[b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b],
         [b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b]]
 
 map3::RunnerMap
-map3 = [[f,f,f,f,f,f,f,f,f,f,b,b,b,b,b,b,b,b,b,b],
+map3 = [[b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b],
         [f,f,f,f,f,f,f,f,f,f,b,f,f,f,f,f,f,f,f,f],
         [f,f,f,f,f,f,f,f,f,f,b,f,f,f,f,f,f,f,f,f],
         [f,f,f,f,f,f,f,f,f,f,b,f,f,f,f,f,f,f,f,f],
@@ -114,19 +114,20 @@ map3 = [[f,f,f,f,f,f,f,f,f,f,b,b,b,b,b,b,b,b,b,b],
         [f,f,f,f,f,f,f,f,f,f,b,f,f,f,f,f,f,f,f,f],
         [f,f,f,f,f,f,f,f,f,f,b,f,f,f,f,f,f,f,f,f],
         [f,f,f,f,f,f,f,f,f,f,b,f,f,f,f,f,f,f,f,f],
-        [b,b,b,b,b,b,b,b,b,b,b,f,f,f,f,f,f,f,f,f]]
+        [b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b]]
 
 main :: IO ()
 main = do
   let winConfig = ((0,0),(screenWidth,screenHeight),"Runner")
       gameMap = multiMap [(tileMap map1 tileSize tileSize),
                           (tileMap map2 tileSize tileSize),
-                          (tileMap map3 tileSize tileSize)] 0
+                          (tileMap map3 tileSize tileSize),
+                          (colorMap 1.0 1.0 1.0 1000 1000)] 3
       player    = objectGroup "playerGroup" [createPlayer]
       ghost     = objectGroup "ghostGroup" [createChefinho, createCrash, createBoo]
       fruit     = objectGroup "fruitGroup" [createFruit]
       groups    = [player, ghost, fruit]
-      initScore = Score 0
+      initScore = Score 0 15
       input = [
         (SpecialKey KeyRight, StillDown, movePlayerToRight)
         ,(SpecialKey KeyLeft,  StillDown, movePlayerToLeft)
@@ -136,7 +137,7 @@ main = do
         ,(Char 'r',            Press, restartGame)
         ]
   bmpList' <- mapM (\(a,f) -> do { a' <- getDataFileName ("app/"++a); return (a', f)}) bmpList
-  funInit winConfig gameMap groups (Level 1) initScore input gameCycle (Timer 50) bmpList'
+  funInit winConfig gameMap groups (GameInit 1) initScore input gameCycle (Timer 50) bmpList'
 
 restartGame :: Modifiers -> Position -> RunnerAction()
 restartGame _ _ = do
@@ -144,29 +145,17 @@ restartGame _ _ = do
 
 setInitGame :: RunnerAction()
 setInitGame = do
-  setGameState (Level 1)
-  setGameAttribute (Score 0)
-  player <- findObject "player" "playerGroup"
-  chefinho <- findObject "chefinho" "ghostGroup"
-  crash <- findObject "crash" "ghostGroup"
-  boo <- findObject "boo" "ghostGroup"
-  fruit <- findObject "fruit" "fruitGroup"
-  setObjectAsleep False player
-  setObjectAsleep False chefinho
-  setObjectAsleep True crash
-  setObjectAsleep True boo
-  setObjectAsleep False fruit
-  setObjectPosition (125,30) player
-  setObjectPosition (500,500) chefinho
-  setObjectPosition (900,900) fruit
+  setGameState (GameInit 1)
+  setGameAttribute (Score 0 15)
+  setInitPositions
 
 createPlayer :: RunnerObject
 createPlayer = let pacTex = Tex (tileSize, tileSize) 4
-               in object "player" pacTex False (125,30) (0,0) ()
+               in object "player" pacTex True (125,80) (0,0) ()
 
 createChefinho :: RunnerObject
 createChefinho = let chefinhoTex = Tex (tileSize, tileSize) 1
-               in object "chefinho" chefinhoTex False (500,500) (0,0) ()
+               in object "chefinho" chefinhoTex True (500,500) (0,0) ()
 
 createCrash :: RunnerObject
 createCrash = let crashTex = Tex (tileSize, tileSize) 3
@@ -178,7 +167,7 @@ createBoo = let booTex = Tex (tileSize, tileSize) 2
 
 createFruit :: RunnerObject
 createFruit = let tex = Tex (tileSize, tileSize) 0
-              in object "fruit" tex False (900,900) (0,0) ()
+              in object "fruit" tex True (900,900) (0,0) ()
 
 
 movePlayerToRight :: Modifiers -> Position -> RunnerAction ()
@@ -207,38 +196,44 @@ movePlayerToDown _ _ = do
 
 gameCycle :: RunnerAction ()
 gameCycle = do
-        (Score n) <- getGameAttribute
-        (Level level) <- getGameState
-        printOnScreen (show n) TimesRoman24 (0,0) 1.0 1.0 1.0
-        if (n == 5 && level /= 0)
-          then setGameState (Level 2)
-          else return()
-        if (n == 10 && level /= 0)
-          then setGameState (Level 3)
-          else return()
-        case level of
-          0 -> do
-            printOnScreen (show("Score "++ show(n))) TimesRoman24 (450,500) 1.0 1.0 1.0
-            printOnScreen (show("Aperte Q para sair")) TimesRoman10 (450,300) 1.0 1.0 1.0
-            printOnScreen (show("Aperte r para recomecar")) TimesRoman10 (440,200) 1.0 1.0 1.0
-            chefinho <- findObject "chefinho" "ghostGroup"
-            crash <- findObject "crash" "ghostGroup"
-            boo <- findObject "boo" "ghostGroup"
-            player <- findObject "player" "playerGroup"
-            fruit <- findObject "fruit" "fruitGroup"
-            setObjectAsleep True chefinho
-            setObjectAsleep True crash
-            setObjectAsleep True boo
-            setObjectAsleep True player
-            setObjectAsleep True fruit
-          1 -> levelOne (Score n)
-          2 -> levelTwo (Score n)
-          3 -> levelThree (Score n)
+        (Score n timer) <- getGameAttribute
+        state <- getGameState
+        case state of
+          (GameInit levelInit) -> do
+            setInitPositions
+            setNewMap 4
+            printOnScreen (show("Nivel") ++ show levelInit) TimesRoman24 (450,500) 0.0 0.0 0.0
+            setGameAttribute (Score n (timer-1))
+            if (timer-1) == 0
+              then setGameState (Level levelInit)
+              else return ()
+          (Level level) -> do
+            printOnScreen (show n) TimesRoman24 (0,0) 1.0 1.0 1.0
+            case level of
+              0 -> do
+                printOnScreen (show("Score "++ show(n))) TimesRoman24 (450,500) 1.0 1.0 1.0
+                printOnScreen (show("Aperte Q para sair")) TimesRoman10 (450,300) 1.0 1.0 1.0
+                printOnScreen (show("Aperte r para recomecar")) TimesRoman10 (440,200) 1.0 1.0 1.0
+                chefinho <- findObject "chefinho" "ghostGroup"
+                crash <- findObject "crash" "ghostGroup"
+                boo <- findObject "boo" "ghostGroup"
+                player <- findObject "player" "playerGroup"
+                fruit <- findObject "fruit" "fruitGroup"
+                setObjectAsleep True chefinho
+                setObjectAsleep True crash
+                setObjectAsleep True boo
+                setObjectAsleep True player
+                setObjectAsleep True fruit
+              1 -> levelOne (Score n 0)
+              2 -> levelTwo (Score n 0)
+              3 -> levelThree (Score n 0)
+
 
 setNewMap :: Int -> RunnerAction ()
 setNewMap 1 = setCurrentMapIndex 0
 setNewMap 2 = setCurrentMapIndex 1
 setNewMap 3 = setCurrentMapIndex 2
+setNewMap 4 = setCurrentMapIndex 3
 setNewMap _ = return ()
 
 -- checkWallCollision :: RunnerObject -> RunnerAction()
@@ -250,13 +245,15 @@ setNewMap _ = return ()
 
 
 levelOne :: GameAttribute ->  RunnerAction()
-levelOne (Score n) = do
+levelOne (Score n _) = do
   setNewMap 1
   chefinho <- findObject "chefinho" "ghostGroup"
   player <- findObject "player" "playerGroup"
   fruit <- findObject "fruit" "fruitGroup"
   setObjectAsleep False chefinho
-  movingGhost (speed * 0.40) chefinho player
+  setObjectAsleep False player
+  setObjectAsleep False fruit
+  movingGhost (speed * 0.10) chefinho player
   movingPlayer
   colChefinhoPlayer <- objectsCollision chefinho player
   colFruitPlayer <- objectsCollision fruit player
@@ -266,12 +263,13 @@ levelOne (Score n) = do
     else do
       if colFruitPlayer
         then do
-          setGameAttribute (Score (n+1))
+          setGameAttribute (Score (n+1) 0)
           spawnFood fruit
+          changeLevel (n+1)
         else return()
 
 levelTwo :: GameAttribute ->  RunnerAction()
-levelTwo (Score n) = do
+levelTwo (Score n _) = do
   setNewMap 2
   chefinho <- findObject "chefinho" "ghostGroup"
   crash <- findObject "crash" "ghostGroup"
@@ -279,8 +277,10 @@ levelTwo (Score n) = do
   fruit <- findObject "fruit" "fruitGroup"
   setObjectAsleep False chefinho
   setObjectAsleep False crash
-  movingGhost (speed * 0.40) chefinho player
-  movingGhost (speed * 0.50) crash player
+  setObjectAsleep False player
+  setObjectAsleep False fruit
+  movingGhost (speed * 0.10) chefinho player
+  movingGhost (speed * 0.10) crash player
   movingPlayer
   colChefinhoPlayer <- objectsCollision chefinho player
   colCrashPlayer <- objectsCollision crash player
@@ -291,12 +291,13 @@ levelTwo (Score n) = do
     else do
       if colFruitPlayer
         then do
-          setGameAttribute (Score (n+1))
+          setGameAttribute (Score (n+1) 0)
           spawnFood fruit
+          changeLevel (n+1)
         else return()
 
 levelThree :: GameAttribute ->  RunnerAction()
-levelThree (Score n) = do
+levelThree (Score n _) = do
   setNewMap 3
   chefinho <- findObject "chefinho" "ghostGroup"
   crash <- findObject "crash" "ghostGroup"
@@ -306,9 +307,11 @@ levelThree (Score n) = do
   setObjectAsleep False chefinho
   setObjectAsleep False crash
   setObjectAsleep False boo
-  movingGhost (speed * 0.40) chefinho player
-  movingGhost (speed * 0.50) crash player
-  movingGhost (speed * 0.60) boo player
+  setObjectAsleep False player
+  setObjectAsleep False fruit
+  movingGhost (speed * 0.10) chefinho player
+  movingGhost (speed * 0.10) crash player
+  movingGhost (speed * 0.10) boo player
   movingPlayer
   colChefinhoPlayer <- objectsCollision chefinho player
   colCrashPlayer <- objectsCollision crash player
@@ -320,14 +323,14 @@ levelThree (Score n) = do
     else do
       if colFruitPlayer
         then do
-          setGameAttribute (Score (n+1))
+          setGameAttribute (Score (n+1) 0)
           spawnFood fruit
         else return()
 
 spawnFood :: RunnerObject -> RunnerAction()
 spawnFood fruit = do
-  x <- randomDouble (0,1000)
-  y <- randomDouble (0,1000)
+  x <- randomDouble (50,950)
+  y <- randomDouble (50,950)
   tile <- getTileFromWindowPosition (x,y)
   if getTileBlocked tile
     then spawnFood fruit
@@ -349,11 +352,10 @@ movingPlayer :: RunnerAction()
 movingPlayer = do
   obj <- findObject "player" "playerGroup"
   (pX, pY) <- getObjectPosition obj
-  (sX, sY) <- getObjectSize obj
-  boundPlayerRight pX pY sX sY obj
-  boundPlayerLeft pX pY sX sY obj
-  boundPlayerUp pX pY sX sY obj
-  boundPlayerDown pX pY sX sY obj
+  boundPlayerRight pX pY obj
+  boundPlayerLeft pX pY obj
+  boundPlayerUp pX pY obj
+  boundPlayerDown pX pY obj
   collisionWithBlock obj (pX,pY)
 
 collisionWithBlock :: RunnerObject -> (Double, Double) -> RunnerAction()
@@ -364,32 +366,64 @@ collisionWithBlock obj (pX,pY) = do
       (vX, vY) <- getObjectSpeed obj
       if (getTileBlocked tile)
         then do
-          setObjectPosition (pX-vX,pY-vY) obj
           setObjectSpeed (0,0) obj
+          setObjectPosition (pX - vX,pY - vY) obj
         else return ()
     else return ()
 
 
-boundPlayerRight :: Double -> Double -> Double -> Double -> RunnerObject -> RunnerAction()
-boundPlayerRight pX pY sX _ obj = do
+boundPlayerRight :: Double -> Double -> RunnerObject -> RunnerAction()
+boundPlayerRight pX pY obj = do
   if pX > 1000
-    then setObjectPosition (0, pY) obj
+    then setObjectPosition (0+(speed/2), pY) obj
     else return ()
 
-boundPlayerLeft :: Double -> Double -> Double -> Double -> RunnerObject -> RunnerAction()
-boundPlayerLeft pX pY sX _ obj = do
+boundPlayerLeft :: Double -> Double -> RunnerObject -> RunnerAction()
+boundPlayerLeft pX pY obj = do
   if pX < 0
-    then setObjectPosition (1000, pY) obj
+    then setObjectPosition (1000-(speed/2), pY) obj
     else return ()
 
-boundPlayerUp :: Double -> Double -> Double -> Double -> RunnerObject -> RunnerAction()
-boundPlayerUp pX pY _ sY obj = do
+boundPlayerUp :: Double -> Double -> RunnerObject -> RunnerAction()
+boundPlayerUp pX pY obj = do
   if pY > 1000
-    then setObjectPosition (pX, 0) obj
+    then setObjectPosition (pX, 0+(speed/2)) obj
     else return ()
 
-boundPlayerDown :: Double -> Double -> Double -> Double -> RunnerObject -> RunnerAction()
-boundPlayerDown pX pY _ sY obj = do
+boundPlayerDown :: Double -> Double -> RunnerObject -> RunnerAction()
+boundPlayerDown pX pY obj = do
   if pY < 0
-    then setObjectPosition (pX, 1000) obj
+    then setObjectPosition (pX, 1000-(speed/2)) obj
     else return ()
+
+setInitPositions :: RunnerAction()
+setInitPositions = do
+  player <- findObject "player" "playerGroup"
+  chefinho <- findObject "chefinho" "ghostGroup"
+  crash <- findObject "crash" "ghostGroup"
+  boo <- findObject "boo" "ghostGroup"
+  fruit <- findObject "fruit" "fruitGroup"
+  setObjectAsleep True player
+  setObjectAsleep True chefinho
+  setObjectAsleep True crash
+  setObjectAsleep True boo
+  setObjectAsleep True fruit
+  setObjectPosition (125,125) player
+  setObjectSpeed (0,0) player
+  setObjectPosition (500,500) chefinho
+  setObjectPosition (100,800) boo
+  setObjectPosition (300,700) crash
+  setObjectPosition (900,900) fruit
+
+changeLevel :: Int -> RunnerAction()
+changeLevel n = do
+  if (n == 5)
+    then do
+      setGameState (GameInit 2)
+      setGameAttribute (Score n 15)
+    else return()
+  if (n == 10)
+    then do
+      setGameState (GameInit 3)
+      setGameAttribute (Score n 15)
+    else return()
