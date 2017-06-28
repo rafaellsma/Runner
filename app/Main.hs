@@ -16,7 +16,7 @@ screenWidth = 1000;
 screenHeight = 1000;
 
 speed :: Double
-speed = 30.0
+speed = 50.0
 
 up, down, right, left :: Int
 up = 7
@@ -148,9 +148,13 @@ setInitGame = do
   setGameAttribute (Score 0)
   player <- findObject "player" "playerGroup"
   chefinho <- findObject "chefinho" "ghostGroup"
+  crash <- findObject "crash" "ghostGroup"
+  boo <- findObject "boo" "ghostGroup"
   fruit <- findObject "fruit" "fruitGroup"
   setObjectAsleep False player
   setObjectAsleep False chefinho
+  setObjectAsleep True crash
+  setObjectAsleep True boo
   setObjectAsleep False fruit
   setObjectPosition (125,30) player
   setObjectPosition (500,500) chefinho
@@ -262,10 +266,8 @@ levelOne (Score n) = do
     else do
       if colFruitPlayer
         then do
-          x <- randomDouble (100,900)
-          y <- randomDouble (100,900)
-          setObjectPosition (x,y) fruit
           setGameAttribute (Score (n+1))
+          spawnFood fruit
         else return()
 
 levelTwo :: GameAttribute ->  RunnerAction()
@@ -289,10 +291,8 @@ levelTwo (Score n) = do
     else do
       if colFruitPlayer
         then do
-          x <- randomDouble (100,900)
-          y <- randomDouble (100,900)
-          setObjectPosition (x,y) fruit
           setGameAttribute (Score (n+1))
+          spawnFood fruit
         else return()
 
 levelThree :: GameAttribute ->  RunnerAction()
@@ -320,11 +320,18 @@ levelThree (Score n) = do
     else do
       if colFruitPlayer
         then do
-          x <- randomDouble (100,900)
-          y <- randomDouble (100,900)
-          setObjectPosition (x,y) fruit
           setGameAttribute (Score (n+1))
+          spawnFood fruit
         else return()
+
+spawnFood :: RunnerObject -> RunnerAction()
+spawnFood fruit = do
+  x <- randomDouble (0,1000)
+  y <- randomDouble (0,1000)
+  tile <- getTileFromWindowPosition (x,y)
+  if getTileBlocked tile
+    then spawnFood fruit
+    else setObjectPosition (x,y) fruit
 
 movingGhost :: Double -> RunnerObject -> RunnerObject -> RunnerAction()
 movingGhost speed ghost player = do
@@ -351,35 +358,38 @@ movingPlayer = do
 
 collisionWithBlock :: RunnerObject -> (Double, Double) -> RunnerAction()
 collisionWithBlock obj (pX,pY) = do
-  tile <- getTileFromWindowPosition (pX,pY)
-  (vX, vY) <- getObjectSpeed obj
-  if (getTileBlocked tile)
+  if(pX < 1000 && pX >= 0 && pY < 1000 && pY >= 0)
     then do
-      setObjectPosition (pX-vX,pY-vY) obj
-      setObjectSpeed (0,0) obj
+      tile <- getTileFromWindowPosition (pX,pY)
+      (vX, vY) <- getObjectSpeed obj
+      if (getTileBlocked tile)
+        then do
+          setObjectPosition (pX-vX,pY-vY) obj
+          setObjectSpeed (0,0) obj
+        else return ()
     else return ()
 
 
 boundPlayerRight :: Double -> Double -> Double -> Double -> RunnerObject -> RunnerAction()
 boundPlayerRight pX pY sX _ obj = do
-  if pX + (sX/2) >= 1000
+  if pX > 1000
     then setObjectPosition (0, pY) obj
     else return ()
 
 boundPlayerLeft :: Double -> Double -> Double -> Double -> RunnerObject -> RunnerAction()
 boundPlayerLeft pX pY sX _ obj = do
   if pX < 0
-    then setObjectPosition (1000 - sX, pY) obj
+    then setObjectPosition (1000, pY) obj
     else return ()
 
 boundPlayerUp :: Double -> Double -> Double -> Double -> RunnerObject -> RunnerAction()
 boundPlayerUp pX pY _ sY obj = do
-  if pY + (sY/2) > 1000
+  if pY > 1000
     then setObjectPosition (pX, 0) obj
     else return ()
 
 boundPlayerDown :: Double -> Double -> Double -> Double -> RunnerObject -> RunnerAction()
 boundPlayerDown pX pY _ sY obj = do
   if pY < 0
-    then setObjectPosition (pX, 1000-sY) obj
+    then setObjectPosition (pX, 1000) obj
     else return ()
