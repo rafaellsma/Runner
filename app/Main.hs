@@ -1,6 +1,5 @@
 module Main where
 import Graphics.UI.Fungen
-import Graphics.Rendering.OpenGL (GLdouble)
 import Paths_runner (getDataFileName)
 
 data GameAttribute = Score Int
@@ -10,7 +9,7 @@ type RunnerAction a = IOGame GameAttribute () GameState TileAttribute a
 
 data TileAttribute = NoTileAttribute
 type RunnerTile = Tile TileAttribute
-type RunnerMap = TileMatrix TileAttribute 
+type RunnerMap = TileMatrix TileAttribute
 
 screenWidth, screenHeight :: Int
 screenWidth = 1000;
@@ -19,17 +18,26 @@ screenHeight = 1000;
 speed :: Double
 speed = 30.0
 
+up, down, right, left :: Int
+up = 7
+left = 8
+down = 9
+right = 4
+
 magenta :: InvList
 magenta = Just [(255,0,255)]
 
 bmpList :: FilePictureList
-bmpList = [("fruit.bmp", magenta),
-           ("chefinho.bmp", Nothing),
-           ("boo.bmp", Nothing),
-           ("crash.bmp", Nothing),
-           ("player.bmp", magenta),
+bmpList = [("cherry.bmp", magenta),
+           ("chefinho.bmp", magenta),
+           ("boo.bmp", magenta),
+           ("crash.bmp", magenta),
+           ("playerright.bmp", magenta),
            ("wall.bmp", Nothing),
-           ("border.bmp", Nothing)]
+           ("border.bmp", Nothing),
+           ("playerup.bmp", magenta),
+           ("playerleft.bmp", magenta),
+           ("playerdown.bmp", magenta)]
 
 tileSize :: Double
 tileSize = 50.0
@@ -149,71 +157,59 @@ setInitGame = do
   setObjectPosition (900,900) fruit
 
 createPlayer :: RunnerObject
-createPlayer = let pacTex = Tex (30, 30) 4
+createPlayer = let pacTex = Tex (tileSize, tileSize) 4
                in object "player" pacTex False (125,30) (0,0) ()
 
 createChefinho :: RunnerObject
-createChefinho = let chefinhoTex = Tex (30, 30) 1
+createChefinho = let chefinhoTex = Tex (tileSize, tileSize) 1
                in object "chefinho" chefinhoTex False (500,500) (0,0) ()
 
 createCrash :: RunnerObject
-createCrash = let crashTex = Tex (30, 30) 3
+createCrash = let crashTex = Tex (tileSize, tileSize) 3
                in object "crash" crashTex True (300,700) (0,0) ()
 
 createBoo :: RunnerObject
-createBoo = let booTex = Tex (30, 30) 2
+createBoo = let booTex = Tex (tileSize, tileSize) 2
                in object "boo" booTex True (500,500) (0,0) ()
 
 createFruit :: RunnerObject
-createFruit = let tex = Tex (32.0, 32.0) 0
+createFruit = let tex = Tex (tileSize, tileSize) 0
               in object "fruit" tex False (900,900) (0,0) ()
 
 
 movePlayerToRight :: Modifiers -> Position -> RunnerAction ()
 movePlayerToRight _ _= do
        obj <- findObject "player" "playerGroup"
-       (pX,pY) <- getObjectPosition obj
-       (sX,_)  <- getObjectSize obj
-       if (pX + (sX/2) + speed <= 1000.0)
-       	then (setObjectPosition ((pX + speed),pY) obj)
-       	else (setObjectPosition ((0 + (sX/2)),pY) obj)
+       setObjectSpeed (speed,0) obj
+       setObjectCurrentPicture right obj
 
 movePlayerToLeft :: Modifiers -> Position -> RunnerAction ()
 movePlayerToLeft _ _ = do
         obj <- findObject "player" "playerGroup"
-        (pX,pY) <- getObjectPosition obj
-        (sX,_)  <- getObjectSize obj
-        if (pX - (sX/2) - speed >= 0)
-        	then (setObjectPosition ((pX - speed),pY) obj)
-        	else (setObjectPosition (1000 - sX/2,pY) obj)
+        setObjectSpeed (-speed,0) obj
+        setObjectCurrentPicture left obj
 
 movePlayerToUp :: Modifiers -> Position -> RunnerAction ()
 movePlayerToUp _ _ = do
         obj <- findObject "player" "playerGroup"
-        (pX,pY) <- getObjectPosition obj
-        (_,sY)  <- getObjectSize obj
-        if (pY + (sY/2) + speed <= 1000)
-        	then (setObjectPosition (pX,(pY + speed)) obj)
-        	else (setObjectPosition (pX,1000 - sY/2) obj)
+        setObjectSpeed (0,speed) obj
+        setObjectCurrentPicture up obj
 
 movePlayerToDown :: Modifiers -> Position -> RunnerAction ()
 movePlayerToDown _ _ = do
         obj <- findObject "player" "playerGroup"
-        (pX,pY) <- getObjectPosition obj
-        (_,sY)  <- getObjectSize obj
-        if (pY - (sY/2) - speed >= 0)
-        	then (setObjectPosition (pX,(pY - speed)) obj)
-        	else (setObjectPosition (pX,0 + sY/2) obj)
+        setObjectSpeed (0,-speed) obj
+        setObjectCurrentPicture down obj
 
 gameCycle :: RunnerAction ()
 gameCycle = do
         (Score n) <- getGameAttribute
         (Level level) <- getGameState
         printOnScreen (show n) TimesRoman24 (0,0) 1.0 1.0 1.0
-        if n == 5
+        if (n == 5 && level /= 0)
           then setGameState (Level 2)
           else return()
-        if n == 10
+        if (n == 10 && level /= 0)
           then setGameState (Level 3)
           else return()
         case level of
@@ -246,8 +242,8 @@ setNewMap _ = return ()
 --   playerPos <- getObjectPosition player
 --   tile <- getTileFromWindowPosition playerPos
 --   if (getBlockedTile tile) then
---     do 
-  
+--     do
+
 
 levelOne :: GameAttribute ->  RunnerAction()
 levelOne (Score n) = do
@@ -257,6 +253,7 @@ levelOne (Score n) = do
   fruit <- findObject "fruit" "fruitGroup"
   setObjectAsleep False chefinho
   movingGhost 2.0 chefinho player
+  movingPlayer
   colChefinhoPlayer <- objectsCollision chefinho player
   colFruitPlayer <- objectsCollision fruit player
   if colChefinhoPlayer
@@ -282,6 +279,7 @@ levelTwo (Score n) = do
   setObjectAsleep False crash
   movingGhost 2.0 chefinho player
   movingGhost 3.7 crash player
+  movingPlayer
   colChefinhoPlayer <- objectsCollision chefinho player
   colCrashPlayer <- objectsCollision crash player
   colFruitPlayer <- objectsCollision fruit player
@@ -311,6 +309,7 @@ levelThree (Score n) = do
   movingGhost 2.5 chefinho player
   movingGhost 3.0 crash player
   movingGhost 5.5 boo player
+  movingPlayer
   colChefinhoPlayer <- objectsCollision chefinho player
   colCrashPlayer <- objectsCollision crash player
   colBooPlayer <- objectsCollision boo player
@@ -338,3 +337,49 @@ movingGhost speed ghost player = do
   if (ghostPosY > playerPosY)
     then setObjectPosition (ghostPosX, ghostPosY-speed) ghost
     else setObjectPosition (ghostPosX, ghostPosY+speed) ghost
+
+movingPlayer :: RunnerAction()
+movingPlayer = do
+  obj <- findObject "player" "playerGroup"
+  (pX, pY) <- getObjectPosition obj
+  (sX, sY) <- getObjectSize obj
+  boundPlayerRight pX pY sX sY obj
+  boundPlayerLeft pX pY sX sY obj
+  boundPlayerUp pX pY sX sY obj
+  boundPlayerDown pX pY sX sY obj
+  collisionWithBlock obj (pX,pY)
+
+collisionWithBlock :: RunnerObject -> (Double, Double) -> RunnerAction()
+collisionWithBlock obj (pX,pY) = do
+  tile <- getTileFromWindowPosition (pX,pY)
+  (vX, vY) <- getObjectSpeed obj
+  if (getTileBlocked tile)
+    then do
+      setObjectPosition (pX-vX,pY-vY) obj
+      setObjectSpeed (0,0) obj
+    else return ()
+
+
+boundPlayerRight :: Double -> Double -> Double -> Double -> RunnerObject -> RunnerAction()
+boundPlayerRight pX pY sX _ obj = do
+  if pX + (sX/2) >= 1000
+    then setObjectPosition (0, pY) obj
+    else return ()
+
+boundPlayerLeft :: Double -> Double -> Double -> Double -> RunnerObject -> RunnerAction()
+boundPlayerLeft pX pY sX _ obj = do
+  if pX < 0
+    then setObjectPosition (1000 - sX, pY) obj
+    else return ()
+
+boundPlayerUp :: Double -> Double -> Double -> Double -> RunnerObject -> RunnerAction()
+boundPlayerUp pX pY _ sY obj = do
+  if pY + (sY/2) > 1000
+    then setObjectPosition (pX, 0) obj
+    else return ()
+
+boundPlayerDown :: Double -> Double -> Double -> Double -> RunnerObject -> RunnerAction()
+boundPlayerDown pX pY _ sY obj = do
+  if pY < 0
+    then setObjectPosition (pX, 1000-sY) obj
+    else return ()
