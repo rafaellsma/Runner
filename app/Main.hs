@@ -256,7 +256,7 @@ levelOne (Score n) = do
   player <- findObject "player" "playerGroup"
   fruit <- findObject "fruit" "fruitGroup"
   setObjectAsleep False chefinho
-  movingGhost 2.0 chefinho player
+  movingGhost (speed * 0.40) chefinho player
   movingPlayer
   colChefinhoPlayer <- objectsCollision chefinho player
   colFruitPlayer <- objectsCollision fruit player
@@ -279,8 +279,8 @@ levelTwo (Score n) = do
   fruit <- findObject "fruit" "fruitGroup"
   setObjectAsleep False chefinho
   setObjectAsleep False crash
-  movingGhost 2.0 chefinho player
-  movingGhost 3.7 crash player
+  movingGhost (speed * 0.40) chefinho player
+  movingGhost (speed * 0.50) crash player
   movingPlayer
   colChefinhoPlayer <- objectsCollision chefinho player
   colCrashPlayer <- objectsCollision crash player
@@ -306,9 +306,9 @@ levelThree (Score n) = do
   setObjectAsleep False chefinho
   setObjectAsleep False crash
   setObjectAsleep False boo
-  movingGhost 2.5 chefinho player
-  movingGhost 3.0 crash player
-  movingGhost 5.5 boo player
+  movingGhost (speed * 0.40) chefinho player
+  movingGhost (speed * 0.50) crash player
+  movingGhost (speed * 0.60) boo player
   movingPlayer
   colChefinhoPlayer <- objectsCollision chefinho player
   colCrashPlayer <- objectsCollision crash player
